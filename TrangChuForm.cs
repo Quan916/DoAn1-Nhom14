@@ -33,6 +33,5 @@ namespace Đồ_án_1___Nhóm_14
         {
             Application.Exit();
         }
-        // Hello end of project
     }
 }

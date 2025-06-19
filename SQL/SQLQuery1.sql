@@ -33,10 +33,13 @@ CREATE TABLE CauHoi (
 GO
 
 -- BẢNG ĐIỂM CAO
-CREATE TABLE DiemCao (
+CREATE TABLE XepHang (
     ID INT PRIMARY KEY IDENTITY(1,1),                        -- Khóa chính
-    TenNguoiChoi NVARCHAR(100) NOT NULL,                     -- Không để trống tên
-    Diem INT NOT NULL CHECK (Diem >= 0),                     -- Điểm ≥ 0
-    ThoiGian DATETIME DEFAULT GETDATE()                      -- Tự động lấy thời gian hiện tại
+    Diem INT NOT NULL CHECK (Diem >= 0),                     -- Điểm đạt được
+    ThoiGianTraLoi INT NOT NULL CHECK (ThoiGianTraLoi >= 0), -- Thời gian trả lời (giây)
+    ThoiGian DATETIME DEFAULT GETDATE()                      -- Thời gian thực tế
 );
+GO
+SELECT * FROM XepHang
+ORDER BY Diem DESC, ThoiGianTraLoi ASC;
 GO

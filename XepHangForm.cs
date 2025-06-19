@@ -21,9 +21,17 @@ namespace Đồ_án_1___Nhóm_14
 
         private void LoadDiemCao()
         {
+            // Chuỗi kết nối
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DoVuiKienThuc;Integrated Security=True;";
 
-            string query = "SELECT TOP 10 TenNguoiChoi, Diem FROM DiemCao ORDER BY Diem DESC";
+            // Câu truy vấn dựa trên bảng XepHang hiện có
+            string query = @"
+                SELECT TOP 10 
+                    Diem, 
+                    ThoiGianTraLoi, 
+                    ThoiGian 
+                FROM XepHang 
+                ORDER BY Diem DESC, ThoiGianTraLoi ASC";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -33,11 +41,18 @@ namespace Đồ_án_1___Nhóm_14
                     SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
-                    dgvDiemCao.DataSource = dt;
 
-                    if (dt.Rows.Count == 0)
+                    if (dt.Rows.Count > 0)
                     {
-                        // Tùy chọn: hiện thông báo trong DataGridView
+                        dgvDiemCao.DataSource = dt;
+
+                        // Cập nhật tiêu đề cột cho dễ hiểu
+                        dgvDiemCao.Columns["Diem"].HeaderText = "Điểm";
+                        dgvDiemCao.Columns["ThoiGianTraLoi"].HeaderText = "TG trả lời (giây)";
+                        dgvDiemCao.Columns["ThoiGian"].HeaderText = "Thời gian chơi";
+                    }
+                    else
+                    {
                         dgvDiemCao.DataSource = null;
                         dgvDiemCao.Columns.Clear();
                         dgvDiemCao.Rows.Clear();
@@ -47,7 +62,7 @@ namespace Đồ_án_1___Nhóm_14
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Lỗi tải dữ liệu: " + ex.Message);
+                    MessageBox.Show("Lỗi tải dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
