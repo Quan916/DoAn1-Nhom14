@@ -1,0 +1,14 @@
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\Đồ án 1 - Nhóm 14.exe.config
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\Đồ án 1 - Nhóm 14.exe
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\Đồ án 1 - Nhóm 14.pdb
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ án 1 - Nhóm 14.csproj.AssemblyReference.cache
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ_án_1___Nhóm_14.Properties.Resources.resources
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ án 1 - Nhóm 14.csproj.GenerateResource.cache
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ án 1 - Nhóm 14.csproj.CoreCompileInputs.cache
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ án 1 - Nhóm 14.exe
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ án 1 - Nhóm 14.pdb
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ án 1 - Nhóm 14.exe.config
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ_án_1___Nhóm_14.TrangChuForm.resources
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ_án_1___Nhóm_14.ChonChuDeForm.resources
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ_án_1___Nhóm_14.XepHangForm.resources
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ_án_1___Nhóm_14.ChoiForm.resources
