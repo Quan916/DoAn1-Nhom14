@@ -38,9 +38,20 @@ namespace Đồ_án_1___Nhóm_14
             try
             {
                 conn.Open();
-                cmd = new SqlCommand("sp_LayCauHoiNgauNhienTheoChuDe", conn);
+
+                if (chuDeID == -1)
+                {
+                    // Lấy ngẫu nhiên câu hỏi từ tất cả chủ đề
+                    cmd = new SqlCommand("sp_LayCauHoiNgauNhien", conn);
+                }
+                else
+                {
+                    // Lấy câu hỏi theo chủ đề được chọn
+                    cmd = new SqlCommand("sp_LayCauHoiNgauNhienTheoChuDe", conn);
+                    cmd.Parameters.AddWithValue("@ChuDeID", chuDeID);
+                }
+
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChuDeID", chuDeID);
                 reader = cmd.ExecuteReader();
 
                 if (reader.Read())
@@ -57,6 +68,7 @@ namespace Đồ_án_1___Nhóm_14
                 reader.Close();
                 conn.Close();
 
+                // Reset thời gian mỗi câu
                 thoiGianConLai = 30;
                 lblThoiGian.Text = "30s";
                 timer1.Start();
@@ -69,6 +81,8 @@ namespace Đồ_án_1___Nhóm_14
 
         private void KiemTraDapAn(string dapAnNguoiChon)
         {
+            timer1.Stop(); // Dừng đếm thời gian sau khi chọn
+
             if (dapAnNguoiChon == dapAnDung)
             {
                 diem += 1;
@@ -117,7 +131,8 @@ namespace Đồ_án_1___Nhóm_14
 
         private void btnThoat_Click(object sender, EventArgs e)
         {
-            MessageBox.Show($"Tổng điểm của bạn là: {diem}", "Kết thúc", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            timer1.Stop();
+            MessageBox.Show($"🎯 Tổng điểm của bạn là: {diem}", "Kết thúc", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
         }
     }
