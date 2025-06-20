@@ -23,15 +23,15 @@ namespace Đồ_án_1___Nhóm_14
         }
 
         private System.Windows.Forms.Label lblTieuDe;
-        private System.Windows.Forms.DataGridView dgvDiemCao;
+        private System.Windows.Forms.DataGridView dgvXepHang;
         private System.Windows.Forms.Button btnDong;
 
         private void InitializeComponent()
         {
             this.lblTieuDe = new System.Windows.Forms.Label();
-            this.dgvDiemCao = new System.Windows.Forms.DataGridView();
+            this.dgvXepHang = new System.Windows.Forms.DataGridView();
             this.btnDong = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDiemCao)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvXepHang)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTieuDe
@@ -44,20 +44,20 @@ namespace Đồ_án_1___Nhóm_14
             this.lblTieuDe.Text = "🎖️ BẢNG XẾP HẠNG";
             this.lblTieuDe.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // dgvDiemCao
+            // dgvXepHang
             // 
-            this.dgvDiemCao.AllowUserToAddRows = false;
-            this.dgvDiemCao.AllowUserToDeleteRows = false;
-            this.dgvDiemCao.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvDiemCao.BackgroundColor = System.Drawing.Color.WhiteSmoke;
-            this.dgvDiemCao.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDiemCao.Location = new System.Drawing.Point(175, 90);
-            this.dgvDiemCao.Name = "dgvDiemCao";
-            this.dgvDiemCao.ReadOnly = true;
-            this.dgvDiemCao.RowHeadersVisible = false;
-            this.dgvDiemCao.RowHeadersWidth = 51;
-            this.dgvDiemCao.Size = new System.Drawing.Size(682, 281);
-            this.dgvDiemCao.TabIndex = 1;
+            this.dgvXepHang.AllowUserToAddRows = false;
+            this.dgvXepHang.AllowUserToDeleteRows = false;
+            this.dgvXepHang.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvXepHang.BackgroundColor = System.Drawing.Color.WhiteSmoke;
+            this.dgvXepHang.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvXepHang.Location = new System.Drawing.Point(175, 90);
+            this.dgvXepHang.Name = "dgvXepHang";
+            this.dgvXepHang.ReadOnly = true;
+            this.dgvXepHang.RowHeadersVisible = false;
+            this.dgvXepHang.RowHeadersWidth = 51;
+            this.dgvXepHang.Size = new System.Drawing.Size(682, 281);
+            this.dgvXepHang.TabIndex = 1;
             // 
             // btnDong
             // 
@@ -77,14 +77,14 @@ namespace Đồ_án_1___Nhóm_14
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1024, 480);
             this.Controls.Add(this.lblTieuDe);
-            this.Controls.Add(this.dgvDiemCao);
+            this.Controls.Add(this.dgvXepHang);
             this.Controls.Add(this.btnDong);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "XepHangForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Bảng Xếp Hạng";
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDiemCao)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvXepHang)).EndInit();
             this.ResumeLayout(false);
 
         }

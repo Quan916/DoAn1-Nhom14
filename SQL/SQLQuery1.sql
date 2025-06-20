@@ -32,7 +32,7 @@ CREATE TABLE CauHoi (
 );
 GO
 
--- BẢNG ĐIỂM CAO
+-- BẢNG XẾP HẠNG
 CREATE TABLE XepHang (
     ID INT PRIMARY KEY IDENTITY(1,1),                        -- Khóa chính
     Diem INT NOT NULL CHECK (Diem >= 0),                     -- Điểm đạt được
@@ -40,6 +40,29 @@ CREATE TABLE XepHang (
     ThoiGian DATETIME DEFAULT GETDATE()                      -- Thời gian thực tế
 );
 GO
-SELECT * FROM XepHang
-ORDER BY Diem DESC, ThoiGianTraLoi ASC;
+
+ALTER TABLE XepHang
+ADD ChuDeID INT;
+GO
+
+ALTER TABLE XepHang
+ADD CONSTRAINT FK_XepHang_ChuDe
+    FOREIGN KEY (ChuDeID) REFERENCES ChuDe(ID)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE;
+GO
+
+SELECT 
+    XH.ID,
+    CH.TenChuDe,
+    XH.Diem,
+    XH.ThoiGianTraLoi,
+    XH.ThoiGian
+FROM 
+    XepHang AS XH
+LEFT JOIN 
+    ChuDe AS CH ON XH.ChuDeID = CH.ID
+ORDER BY 
+    XH.Diem DESC, 
+    XH.ThoiGianTraLoi ASC;
 GO

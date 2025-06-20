@@ -107,16 +107,4 @@ namespace Đồ_án_1___Nhóm_14
             return danhSach;
         }
     }
-
-    public class CauHoi
-    {
-        public string NoiDung { get; set; }
-        public string DapAnA { get; set; }
-        public string DapAnB { get; set; }
-        public string DapAnC { get; set; }
-        public string DapAnD { get; set; }
-        public string DapAnDung { get; set; }
-        public string GiaiThich { get; set; }
-        public string ChuDe { get; set; }
-    }
 }

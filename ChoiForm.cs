@@ -36,6 +36,12 @@ namespace Đồ_án_1___Nhóm_14
             {
                 timer1.Stop();
                 MessageBox.Show($"🎉 Bạn đã hoàn thành tất cả câu hỏi!\nTổng điểm: {diem}", "Hoàn tất", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                int tongThoiGian = danhSachCauHoi.Count * 30;
+                int chuDeID = danhSachCauHoi[0].ChuDeID;
+
+                LuuKetQua(diem, tongThoiGian, chuDeID);
+
                 this.Close();
                 return;
             }
@@ -72,6 +78,12 @@ namespace Đồ_án_1___Nhóm_14
             {
                 MessageBox.Show($"❌ Sai rồi!\nĐáp án đúng là: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Sai rồi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MessageBox.Show($"🎯 Trò chơi kết thúc!\nTổng điểm của bạn: {diem}", "Kết thúc", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                int tongThoiGian = cauHoiHienTai * 30 + (30 - thoiGianConLai);
+                int chuDeID = danhSachCauHoi[0].ChuDeID;
+
+                LuuKetQua(diem, tongThoiGian, chuDeID);
+
                 this.Close();
             }
         }
@@ -85,9 +97,16 @@ namespace Đồ_án_1___Nhóm_14
             {
                 timer1.Stop();
                 MessageBox.Show($"⏰ Hết giờ!\nĐáp án đúng: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Hết thời gian", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cauHoiHienTai++;
-                LoadCauHoi();
+
+                int tongThoiGian = cauHoiHienTai * 30 + 30;
+                int chuDeID = danhSachCauHoi[0].ChuDeID;
+
+                LuuKetQua(diem, tongThoiGian, chuDeID);
+
+                MessageBox.Show($"🎯 Trò chơi kết thúc!\nTổng điểm của bạn: {diem}", "Kết thúc", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
             }
+
         }
 
         private void btnDapAnA_Click(object sender, EventArgs e) => KiemTraDapAn("A");
@@ -115,5 +134,25 @@ namespace Đồ_án_1___Nhóm_14
             MessageBox.Show(luat, "Luật chơi", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private void LuuKetQua(int diem, int thoiGianTraLoi, int chuDeID)
+        {
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DoVuiKienThuc;Integrated Security=True;";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = "INSERT INTO XepHang (Diem, ThoiGianTraLoi, ChuDeID) " +
+                               "VALUES (@Diem, @ThoiGianTraLoi, @ChuDeID)";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Diem", diem);
+                    cmd.Parameters.AddWithValue("@ThoiGianTraLoi", thoiGianTraLoi);
+                    cmd.Parameters.AddWithValue("@ChuDeID", chuDeID);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
