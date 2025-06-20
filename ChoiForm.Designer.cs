@@ -94,12 +94,13 @@
             // 
             // lblDiem
             // 
-            this.lblDiem.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblDiem.Location = new System.Drawing.Point(30, 10);
+            this.lblDiem.AutoSize = true;
+            this.lblDiem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblDiem.Location = new System.Drawing.Point(30, 20); // vị trí có thể thay đổi tùy bố cục bạn
             this.lblDiem.Name = "lblDiem";
-            this.lblDiem.Size = new System.Drawing.Size(150, 30);
-            this.lblDiem.TabIndex = 6;
+            this.lblDiem.Size = new System.Drawing.Size(70, 21);
             this.lblDiem.Text = "Điểm: 0";
+            this.Controls.Add(this.lblDiem);
             // 
             // timer1
             // 

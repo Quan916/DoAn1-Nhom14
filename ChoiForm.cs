@@ -15,36 +15,41 @@ namespace Đồ_án_1___Nhóm_14
     public partial class ChoiForm : Form
     {
         private List<CauHoi> danhSachCauHoi;
-        private Random rand = new Random();
+        private int cauHoiHienTai = 0;
+        private int diem = 0;
         private int thoiGianConLai;
         private string dapAnDung = "";
         private string giaiThich = "";
-        private int diem = 0;
+        private Random rand = new Random();
 
         public ChoiForm(List<CauHoi> cauHoiExcel)
         {
             InitializeComponent();
-            danhSachCauHoi = cauHoiExcel;
-            LoadCauHoiExcel();
+
+            // Trộn ngẫu nhiên danh sách câu hỏi để không lặp lại
+            danhSachCauHoi = cauHoiExcel.OrderBy(x => rand.Next()).ToList();
+
+            LoadCauHoi();
         }
 
-        private void LoadCauHoiExcel()
+        private void LoadCauHoi()
         {
-            if (danhSachCauHoi.Count == 0)
+            if (cauHoiHienTai >= danhSachCauHoi.Count)
             {
-                MessageBox.Show("Không có câu hỏi nào để chơi!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                timer1.Stop();
+                MessageBox.Show($"🎉 Bạn đã hoàn thành tất cả câu hỏi!\nTổng điểm: {diem}", "Hoàn tất", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
                 return;
             }
 
-            var ch = danhSachCauHoi[rand.Next(danhSachCauHoi.Count)];
+            var ch = danhSachCauHoi[cauHoiHienTai];
 
             lblCauHoi.Text = ch.NoiDung;
             btnDapAnA.Text = "A. " + ch.DapAnA;
             btnDapAnB.Text = "B. " + ch.DapAnB;
             btnDapAnC.Text = "C. " + ch.DapAnC;
             btnDapAnD.Text = "D. " + ch.DapAnD;
-            dapAnDung = ch.DapAnDung.Trim();
+            dapAnDung = ch.DapAnDung.Trim().ToUpper();
             giaiThich = ch.GiaiThich;
 
             thoiGianConLai = 30;
@@ -58,15 +63,17 @@ namespace Đồ_án_1___Nhóm_14
 
             if (dapAnNguoiChon == dapAnDung)
             {
-                diem += 1;
-                MessageBox.Show("🎉 Chính xác!\n+10 điểm", "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                diem += 10;
+                lblDiem.Text = "Điểm: " + diem;
+                MessageBox.Show("✅ Chính xác!\n+10 điểm", "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show($"❌ Sai rồi!\nĐáp án đúng là: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"❌ Sai rồi!\nĐáp án đúng: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            LoadCauHoiExcel();
+            cauHoiHienTai++;
+            LoadCauHoi();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -77,8 +84,9 @@ namespace Đồ_án_1___Nhóm_14
             if (thoiGianConLai == 0)
             {
                 timer1.Stop();
-                MessageBox.Show($"⏰ Hết giờ!\nĐáp án đúng là: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Hết thời gian", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                LoadCauHoiExcel();
+                MessageBox.Show($"⏰ Hết giờ!\nĐáp án đúng: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Hết thời gian", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cauHoiHienTai++;
+                LoadCauHoi();
             }
         }
 
