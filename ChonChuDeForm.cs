@@ -19,79 +19,26 @@ namespace Đồ_án_1___Nhóm_14
             InitializeComponent();
         }
 
-        private void btnLichSu_Click(object sender, EventArgs e)
-        {
-            ChuDeDuocChon = "Lịch sử";
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        private void btnKhoaHoc_Click(object sender, EventArgs e)
-        {
-            ChuDeDuocChon = "Khoa học";
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        private void btnDiaLy_Click(object sender, EventArgs e)
-        {
-            ChuDeDuocChon = "Địa lý";
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        private void btnTheThao_Click(object sender, EventArgs e)
-        {
-            ChuDeDuocChon = "Thể thao";
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        private void btnAmNhac_Click(object sender, EventArgs e)
-        {
-            ChuDeDuocChon = "Âm nhạc";
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        private void btnCongNghe_Click(object sender, EventArgs e)
-        {
-            ChuDeDuocChon = "Công nghệ";
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        private void btnVanHoc_Click(object sender, EventArgs e)
-        {
-            ChuDeDuocChon = "Văn học";
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        private void btnTheGioi_Click(object sender, EventArgs e)
-        {
-            ChuDeDuocChon = "Thế giới";
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        private void btnHoaHoc_Click(object sender, EventArgs e)
-        {
-            ChuDeDuocChon = "Hóa học";
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        private void btnNgauNhien_Click(object sender, EventArgs e)
-        {
-            ChuDeDuocChon = "Ngẫu nhiên";
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
+        private void btnLichSu_Click(object sender, EventArgs e) => Chon("Lịch sử");
+        private void btnKhoaHoc_Click(object sender, EventArgs e) => Chon("Khoa học");
+        private void btnDiaLy_Click(object sender, EventArgs e) => Chon("Địa lý");
+        private void btnTheThao_Click(object sender, EventArgs e) => Chon("Thể thao");
+        private void btnAmNhac_Click(object sender, EventArgs e) => Chon("Âm nhạc");
+        private void btnCongNghe_Click(object sender, EventArgs e) => Chon("Công nghệ");
+        private void btnVanHoc_Click(object sender, EventArgs e) => Chon("Văn học");
+        private void btnTheGioi_Click(object sender, EventArgs e) => Chon("Thế giới");
+        private void btnHoaHoc_Click(object sender, EventArgs e) => Chon("Hóa học");
+        private void btnNgauNhien_Click(object sender, EventArgs e) => Chon("Ngẫu nhiên");
         private void btnHuy_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        private void Chon(string chuDe)
+        {
+            ChuDeDuocChon = chuDe;
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
     }

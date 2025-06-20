@@ -12,3 +12,20 @@ D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ
 D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ_án_1___Nhóm_14.ChonChuDeForm.resources
 D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ_án_1___Nhóm_14.XepHangForm.resources
 D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ_án_1___Nhóm_14.ChoiForm.resources
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\ExcelDataReader.DataSet.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\ExcelDataReader.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\System.Buffers.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\System.Memory.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\System.Numerics.Vectors.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\System.Text.Encoding.CodePages.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\ExcelDataReader.pdb
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\ExcelDataReader.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\ExcelDataReader.DataSet.pdb
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\ExcelDataReader.DataSet.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\System.Buffers.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\System.Memory.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\System.Numerics.Vectors.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\System.Text.Encoding.CodePages.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\__ _n 1 .DB63155E.Up2Date

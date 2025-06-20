@@ -14,74 +14,47 @@ namespace Đồ_án_1___Nhóm_14
 {
     public partial class ChoiForm : Form
     {
-        SqlConnection conn;
-        SqlCommand cmd;
-        SqlDataReader reader;
-
-        string dapAnDung = "";
-        string giaiThich = "";
-        int diem = 0;
-        int chuDeID;
-
+        private List<CauHoi> danhSachCauHoi;
+        private Random rand = new Random();
         private int thoiGianConLai;
+        private string dapAnDung = "";
+        private string giaiThich = "";
+        private int diem = 0;
 
-        public ChoiForm(int idChuDe)
+        public ChoiForm(List<CauHoi> cauHoiExcel)
         {
             InitializeComponent();
-            chuDeID = idChuDe;
-            conn = new SqlConnection(@"Data Source=.\SQLEXPRESS;Initial Catalog=DoVuiKienThuc;Integrated Security=True");
-            LoadCauHoi();
+            danhSachCauHoi = cauHoiExcel;
+            LoadCauHoiExcel();
         }
 
-        private void LoadCauHoi()
+        private void LoadCauHoiExcel()
         {
-            try
+            if (danhSachCauHoi.Count == 0)
             {
-                conn.Open();
-
-                if (chuDeID == -1)
-                {
-                    // Lấy ngẫu nhiên câu hỏi từ tất cả chủ đề
-                    cmd = new SqlCommand("sp_LayCauHoiNgauNhien", conn);
-                }
-                else
-                {
-                    // Lấy câu hỏi theo chủ đề được chọn
-                    cmd = new SqlCommand("sp_LayCauHoiNgauNhienTheoChuDe", conn);
-                    cmd.Parameters.AddWithValue("@ChuDeID", chuDeID);
-                }
-
-                cmd.CommandType = CommandType.StoredProcedure;
-                reader = cmd.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    lblCauHoi.Text = reader["NoiDung"].ToString();
-                    btnDapAnA.Text = "A. " + reader["DapAnA"].ToString();
-                    btnDapAnB.Text = "B. " + reader["DapAnB"].ToString();
-                    btnDapAnC.Text = "C. " + reader["DapAnC"].ToString();
-                    btnDapAnD.Text = "D. " + reader["DapAnD"].ToString();
-                    dapAnDung = reader["DapAnDung"].ToString().Trim();
-                    giaiThich = reader["GiaiThich"].ToString();
-                }
-
-                reader.Close();
-                conn.Close();
-
-                // Reset thời gian mỗi câu
-                thoiGianConLai = 30;
-                lblThoiGian.Text = "30s";
-                timer1.Start();
+                MessageBox.Show("Không có câu hỏi nào để chơi!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.Close();
+                return;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi tải câu hỏi: " + ex.Message);
-            }
+
+            var ch = danhSachCauHoi[rand.Next(danhSachCauHoi.Count)];
+
+            lblCauHoi.Text = ch.NoiDung;
+            btnDapAnA.Text = "A. " + ch.DapAnA;
+            btnDapAnB.Text = "B. " + ch.DapAnB;
+            btnDapAnC.Text = "C. " + ch.DapAnC;
+            btnDapAnD.Text = "D. " + ch.DapAnD;
+            dapAnDung = ch.DapAnDung.Trim();
+            giaiThich = ch.GiaiThich;
+
+            thoiGianConLai = 30;
+            lblThoiGian.Text = "30s";
+            timer1.Start();
         }
 
         private void KiemTraDapAn(string dapAnNguoiChon)
         {
-            timer1.Stop(); // Dừng đếm thời gian sau khi chọn
+            timer1.Stop();
 
             if (dapAnNguoiChon == dapAnDung)
             {
@@ -93,27 +66,7 @@ namespace Đồ_án_1___Nhóm_14
                 MessageBox.Show($"❌ Sai rồi!\nĐáp án đúng là: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            LoadCauHoi();
-        }
-
-        private void btnDapAnA_Click(object sender, EventArgs e)
-        {
-            KiemTraDapAn("A");
-        }
-
-        private void btnDapAnB_Click(object sender, EventArgs e)
-        {
-            KiemTraDapAn("B");
-        }
-
-        private void btnDapAnC_Click(object sender, EventArgs e)
-        {
-            KiemTraDapAn("C");
-        }
-
-        private void btnDapAnD_Click(object sender, EventArgs e)
-        {
-            KiemTraDapAn("D");
+            LoadCauHoiExcel();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -125,9 +78,14 @@ namespace Đồ_án_1___Nhóm_14
             {
                 timer1.Stop();
                 MessageBox.Show($"⏰ Hết giờ!\nĐáp án đúng là: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Hết thời gian", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                LoadCauHoi();
+                LoadCauHoiExcel();
             }
         }
+
+        private void btnDapAnA_Click(object sender, EventArgs e) => KiemTraDapAn("A");
+        private void btnDapAnB_Click(object sender, EventArgs e) => KiemTraDapAn("B");
+        private void btnDapAnC_Click(object sender, EventArgs e) => KiemTraDapAn("C");
+        private void btnDapAnD_Click(object sender, EventArgs e) => KiemTraDapAn("D");
 
         private void btnThoat_Click(object sender, EventArgs e)
         {
