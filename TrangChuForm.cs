@@ -26,15 +26,14 @@ namespace Đồ_án_1___Nhóm_14
         {
             if (cauHoi.Count == 0)
             {
-                OpenFileDialog ofd = new OpenFileDialog();
-                ofd.Filter = "Excel Files|*.xlsx;*.xls";
-                if (ofd.ShowDialog() == DialogResult.OK)
+                string filePath = Application.StartupPath + @"\CauHoi.xlsx";
+                if (!File.Exists(filePath))
                 {
-                    string filePath = ofd.FileName;
-                    cauHoi = DoccauHoi(filePath);
-                    MessageBox.Show("Đã tải " + cauHoi.Count + " câu hỏi từ Excel.");
+                    MessageBox.Show("Không tìm thấy file CauHoi.xlsx trong thư mục chương trình!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
-                else return;
+
+                cauHoi = DoccauHoi(filePath);
             }
 
             var formChon = new ChonChuDeForm();
