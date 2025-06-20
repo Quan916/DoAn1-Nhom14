@@ -25,10 +25,8 @@ namespace Đồ_án_1___Nhóm_14
         public ChoiForm(List<CauHoi> cauHoiExcel)
         {
             InitializeComponent();
-
-            // Trộn ngẫu nhiên danh sách câu hỏi để không lặp lại
+            HienThiLuatChoi();
             danhSachCauHoi = cauHoiExcel.OrderBy(x => rand.Next()).ToList();
-
             LoadCauHoi();
         }
 
@@ -103,5 +101,19 @@ namespace Đồ_án_1___Nhóm_14
             MessageBox.Show($"🎯 Tổng điểm của bạn là: {diem}", "Kết thúc", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
         }
+
+        private void HienThiLuatChoi()
+        {
+            string luat = "🎮 LUẬT CHƠI\n\n" +
+                          "1. Chọn một chủ đề để bắt đầu.\n" +
+                          "2. Mỗi câu có 30 giây để trả lời.\n" +
+                          "3. Trả lời đúng: +10 điểm.\n" +
+                          "4. Trả lời sai: Trò chơi kết thúc ngay.\n" +
+                          "5. Trò chơi kết thúc khi hết câu hỏi.\n\n" +
+                          "Chúc bạn may mắn! 🍀";
+
+            MessageBox.Show(luat, "Luật chơi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
     }
 }
