@@ -66,14 +66,16 @@ namespace Đồ_án_1___Nhóm_14
                 diem += 10;
                 lblDiem.Text = "Điểm: " + diem;
                 MessageBox.Show("✅ Chính xác!\n+10 điểm", "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                cauHoiHienTai++;
+                LoadCauHoi();
             }
             else
             {
-                MessageBox.Show($"❌ Sai rồi!\nĐáp án đúng: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"❌ Sai rồi!\nĐáp án đúng là: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Sai rồi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"🎯 Trò chơi kết thúc!\nTổng điểm của bạn: {diem}", "Kết thúc", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
             }
-
-            cauHoiHienTai++;
-            LoadCauHoi();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
