@@ -49,10 +49,32 @@ namespace Đồ_án_1___Nhóm_14
             }
         }
 
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Bạn có chắc muốn xóa toàn bộ bảng xếp hạng?",
+                "Xác nhận xoá",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                string connStr = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DoVuiKienThuc;Integrated Security=True";
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand("DELETE FROM XepHang", conn);
+                    cmd.ExecuteNonQuery();
+                }
+
+                MessageBox.Show("Đã xoá toàn bộ xếp hạng.", "Hoàn tất", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadDiemCao(); // Tải lại bảng rỗng
+            }
+        }
+
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
     }
 }

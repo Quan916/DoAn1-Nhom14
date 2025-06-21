@@ -25,12 +25,14 @@ namespace Đồ_án_1___Nhóm_14
         private System.Windows.Forms.Label lblTieuDe;
         private System.Windows.Forms.DataGridView dgvXepHang;
         private System.Windows.Forms.Button btnDong;
+        private System.Windows.Forms.Button btnReset;
 
         private void InitializeComponent()
         {
             this.lblTieuDe = new System.Windows.Forms.Label();
             this.dgvXepHang = new System.Windows.Forms.DataGridView();
             this.btnDong = new System.Windows.Forms.Button();
+            this.btnReset = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvXepHang)).BeginInit();
             this.SuspendLayout();
             // 
@@ -62,13 +64,23 @@ namespace Đồ_án_1___Nhóm_14
             // btnDong
             // 
             this.btnDong.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.btnDong.Location = new System.Drawing.Point(461, 392);
+            this.btnDong.Location = new System.Drawing.Point(555, 394);
             this.btnDong.Name = "btnDong";
             this.btnDong.Size = new System.Drawing.Size(100, 35);
             this.btnDong.TabIndex = 2;
             this.btnDong.Text = "Đóng";
             this.btnDong.UseVisualStyleBackColor = true;
             this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
+            // 
+            // btnReset
+            // 
+            this.btnReset.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnReset.Location = new System.Drawing.Point(375, 394);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(150, 35);
+            this.btnReset.TabIndex = 0;
+            this.btnReset.Text = "Reset Xếp Hạng";
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // XepHangForm
             // 
@@ -79,6 +91,7 @@ namespace Đồ_án_1___Nhóm_14
             this.Controls.Add(this.lblTieuDe);
             this.Controls.Add(this.dgvXepHang);
             this.Controls.Add(this.btnDong);
+            this.Controls.Add(this.btnReset);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "XepHangForm";
