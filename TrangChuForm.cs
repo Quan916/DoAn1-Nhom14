@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -51,7 +52,7 @@ namespace Đồ_án_1___Nhóm_14
                     return;
                 }
 
-                var choiForm = new ChoiForm(danhSachTheoChuDe);
+                var choiForm = new ChoiForm(danhSachTheoChuDe, tenChuDe);
                 choiForm.ShowDialog();
             }
         }
@@ -69,6 +70,7 @@ namespace Đồ_án_1___Nhóm_14
 
         public List<CauHoi> DoccauHoi(string filePath)
         {
+            var mapChuDe = LayDanhSachChuDe();
             List<CauHoi> danhSach = new List<CauHoi>();
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
@@ -77,17 +79,18 @@ namespace Đồ_án_1___Nhóm_14
             {
                 var config = new ExcelDataSetConfiguration
                 {
-                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration
-                    {
-                        UseHeaderRow = true
-                    }
+                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration { UseHeaderRow = true }
                 };
-
-                var dataSet = reader.AsDataSet(config);
-                var table = dataSet.Tables[0];
+                var table = reader.AsDataSet(config).Tables[0];
 
                 foreach (DataRow row in table.Rows)
                 {
+                    string chuDe = row["ChuDe"].ToString().Trim();
+                    if (!mapChuDe.ContainsKey(chuDe)) continue;
+
+                    string dapAnDung = row["DapAnDung"].ToString().Trim().ToUpper();
+                    if (!new[] { "A", "B", "C", "D" }.Contains(dapAnDung)) continue;
+
                     CauHoi ch = new CauHoi
                     {
                         NoiDung = row["NoiDung"].ToString(),
@@ -95,9 +98,10 @@ namespace Đồ_án_1___Nhóm_14
                         DapAnB = row["DapAnB"].ToString(),
                         DapAnC = row["DapAnC"].ToString(),
                         DapAnD = row["DapAnD"].ToString(),
-                        DapAnDung = row["DapAnDung"].ToString(),
+                        DapAnDung = dapAnDung,
                         GiaiThich = row["GiaiThich"].ToString(),
-                        ChuDe = row["ChuDe"].ToString()
+                        ChuDe = chuDe,
+                        ChuDeID = mapChuDe[chuDe]
                     };
 
                     danhSach.Add(ch);
@@ -105,6 +109,27 @@ namespace Đồ_án_1___Nhóm_14
             }
 
             return danhSach;
+        }
+
+        private Dictionary<string, int> LayDanhSachChuDe()
+        {
+            var map = new Dictionary<string, int>();
+            string connStr = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DoVuiKienThuc;Integrated Security=True";
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT ID, TenChuDe FROM ChuDe", conn);
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string ten = reader["TenChuDe"].ToString().Trim();
+                        int id = Convert.ToInt32(reader["ID"]);
+                        map[ten] = id;
+                    }
+                }
+            }
+            return map;
         }
     }
 }

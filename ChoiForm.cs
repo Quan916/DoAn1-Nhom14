@@ -21,12 +21,16 @@ namespace Đồ_án_1___Nhóm_14
         private string dapAnDung = "";
         private string giaiThich = "";
         private Random rand = new Random();
+        private DateTime thoiGianBatDau;
+        private string tenChuDe;
 
-        public ChoiForm(List<CauHoi> cauHoiExcel)
+        public ChoiForm(List<CauHoi> cauHoiExcel, string chuDeDuocChon)
         {
             InitializeComponent();
             HienThiLuatChoi();
             danhSachCauHoi = cauHoiExcel.OrderBy(x => rand.Next()).ToList();
+            thoiGianBatDau = DateTime.Now;
+            tenChuDe = chuDeDuocChon.Trim();
             LoadCauHoi();
         }
 
@@ -35,16 +39,14 @@ namespace Đồ_án_1___Nhóm_14
             if (cauHoiHienTai >= danhSachCauHoi.Count)
             {
                 timer1.Stop();
+                int tongThoiGian = (int)(DateTime.Now - thoiGianBatDau).TotalSeconds;
                 MessageBox.Show($"🎉 Bạn đã hoàn thành tất cả câu hỏi!\nTổng điểm: {diem}", "Hoàn tất", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                int tongThoiGian = danhSachCauHoi.Count * 30;
-
+                LuuDiem(danhSachCauHoi[0].ChuDeID, diem, tongThoiGian);
                 this.Close();
                 return;
             }
 
             var ch = danhSachCauHoi[cauHoiHienTai];
-
             lblCauHoi.Text = ch.NoiDung;
             btnDapAnA.Text = "A. " + ch.DapAnA;
             btnDapAnB.Text = "B. " + ch.DapAnB;
@@ -67,7 +69,6 @@ namespace Đồ_án_1___Nhóm_14
                 diem += 10;
                 lblDiem.Text = "Điểm: " + diem;
                 MessageBox.Show("✅ Chính xác!\n+10 điểm", "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 cauHoiHienTai++;
                 LoadCauHoi();
             }
@@ -75,10 +76,8 @@ namespace Đồ_án_1___Nhóm_14
             {
                 MessageBox.Show($"❌ Sai rồi!\nĐáp án đúng là: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Sai rồi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MessageBox.Show($"🎯 Trò chơi kết thúc!\nTổng điểm của bạn: {diem}", "Kết thúc", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                int tongThoiGian = cauHoiHienTai * 30 + (30 - thoiGianConLai);
-                int chuDeID = danhSachCauHoi[0].ChuDeID;
-
+                int tongThoiGian = (int)(DateTime.Now - thoiGianBatDau).TotalSeconds;
+                LuuDiem(danhSachCauHoi[0].ChuDeID, diem, tongThoiGian);
                 this.Close();
             }
         }
@@ -92,14 +91,31 @@ namespace Đồ_án_1___Nhóm_14
             {
                 timer1.Stop();
                 MessageBox.Show($"⏰ Hết giờ!\nĐáp án đúng: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Hết thời gian", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                int tongThoiGian = cauHoiHienTai * 30 + 30;
-                int chuDeID = danhSachCauHoi[0].ChuDeID;
-
-                MessageBox.Show($"🎯 Trò chơi kết thúc!\nTổng điểm của bạn: {diem}", "Kết thúc", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                int tongThoiGian = (int)(DateTime.Now - thoiGianBatDau).TotalSeconds;
+                LuuDiem(danhSachCauHoi[0].ChuDeID, diem, tongThoiGian);
                 this.Close();
             }
+        }
 
+        private void LuuDiem(int chuDeID, int diem, int thoiGianTraLoi)
+        {
+            string connStr = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DoVuiKienThuc;Integrated Security=True";
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(@"
+                    INSERT INTO XepHang (Diem, ThoiGianTraLoi, ChuDeID)
+                    VALUES (@Diem, @ThoiGianTraLoi, @ChuDeID)", conn);
+
+                cmd.Parameters.AddWithValue("@Diem", diem);
+                cmd.Parameters.AddWithValue("@ThoiGianTraLoi", thoiGianTraLoi);
+                if (tenChuDe == "Ngẫu nhiên")
+                    cmd.Parameters.AddWithValue("@ChuDeID", DBNull.Value);
+                else
+                    cmd.Parameters.AddWithValue("@ChuDeID", chuDeID);
+
+                cmd.ExecuteNonQuery();
+            }
         }
 
         private void btnDapAnA_Click(object sender, EventArgs e) => KiemTraDapAn("A");
@@ -107,22 +123,13 @@ namespace Đồ_án_1___Nhóm_14
         private void btnDapAnC_Click(object sender, EventArgs e) => KiemTraDapAn("C");
         private void btnDapAnD_Click(object sender, EventArgs e) => KiemTraDapAn("D");
 
-        private void btnThoat_Click(object sender, EventArgs e)
-        {
-            int tongThoiGian = cauHoiHienTai * 30 + (30 - thoiGianConLai);
-            int chuDeID = danhSachCauHoi[0].ChuDeID;
-
-            MessageBox.Show($"🎯 Tổng điểm của bạn là: {diem}", "Kết thúc", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            this.Close();
-        }
-
         private void HienThiLuatChoi()
         {
             string luat = "🎮 LUẬT CHƠI\n\n" +
                           "1. Chọn một chủ đề để bắt đầu.\n" +
                           "2. Mỗi câu có 30 giây để trả lời.\n" +
                           "3. Trả lời đúng: +10 điểm.\n" +
-                          "4. Trả lời sai: Trò chơi kết thúc ngay.\n" +
+                          "4. Trả lời sai hoặc hết giờ: kết thúc game.\n" +
                           "5. Trò chơi kết thúc khi hết câu hỏi.\n\n" +
                           "Chúc bạn may mắn! 🍀";
 
