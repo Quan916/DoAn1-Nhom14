@@ -66,3 +66,5 @@ ORDER BY
     XH.Diem DESC, 
     XH.ThoiGianTraLoi ASC;
 GO
+
+SELECT * FROM ChuDe WHERE ID = @ChuDeID
