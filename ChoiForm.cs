@@ -40,9 +40,23 @@ namespace Đồ_án_1___Nhóm_14
             {
                 timer1.Stop();
                 int tongThoiGian = (int)(DateTime.Now - thoiGianBatDau).TotalSeconds;
-                MessageBox.Show($"🎉 Bạn đã hoàn thành tất cả câu hỏi!\nTổng điểm: {diem}", "Hoàn tất", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LuuDiem(danhSachCauHoi[0].ChuDeID, diem, tongThoiGian);
-                this.Close();
+
+                var choiLai = MessageBox.Show($"🎉 Bạn đã hoàn thành tất cả câu hỏi!\nTổng điểm: {diem}\n\nBạn có muốn chơi lại không?",
+                    "Chơi lại", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (choiLai == DialogResult.Yes)
+                {
+                    cauHoiHienTai = 0;
+                    diem = 0;
+                    lblDiem.Text = "Điểm: 0";
+                    danhSachCauHoi = danhSachCauHoi.OrderBy(x => rand.Next()).ToList();
+                    thoiGianBatDau = DateTime.Now;
+                    LoadCauHoi();
+                }
+                else
+                {
+                    this.Close();
+                }
                 return;
             }
 
@@ -75,10 +89,24 @@ namespace Đồ_án_1___Nhóm_14
             else
             {
                 MessageBox.Show($"❌ Sai rồi!\nĐáp án đúng là: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Sai rồi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MessageBox.Show($"🎯 Trò chơi kết thúc!\nTổng điểm của bạn: {diem}", "Kết thúc", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 int tongThoiGian = (int)(DateTime.Now - thoiGianBatDau).TotalSeconds;
                 LuuDiem(danhSachCauHoi[0].ChuDeID, diem, tongThoiGian);
-                this.Close();
+
+                var choiLai = MessageBox.Show($"🎯 Trò chơi kết thúc!\nTổng điểm của bạn: {diem}\n\nBạn có muốn chơi lại không?",
+                    "Chơi lại", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (choiLai == DialogResult.Yes)
+                {
+                    cauHoiHienTai = 0;
+                    diem = 0;
+                    lblDiem.Text = "Điểm: 0";
+                    danhSachCauHoi = danhSachCauHoi.OrderBy(x => rand.Next()).ToList();
+                    thoiGianBatDau = DateTime.Now;
+                    LoadCauHoi();
+                }
+                else
+                {
+                    this.Close();
+                }
             }
         }
 
@@ -93,7 +121,22 @@ namespace Đồ_án_1___Nhóm_14
                 MessageBox.Show($"⏰ Hết giờ!\nĐáp án đúng: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Hết thời gian", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 int tongThoiGian = (int)(DateTime.Now - thoiGianBatDau).TotalSeconds;
                 LuuDiem(danhSachCauHoi[0].ChuDeID, diem, tongThoiGian);
-                this.Close();
+
+                var choiLai = MessageBox.Show($"🎯 Trò chơi kết thúc!\nTổng điểm của bạn: {diem}\n\nBạn có muốn chơi lại không?",
+                    "Chơi lại", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (choiLai == DialogResult.Yes)
+                {
+                    cauHoiHienTai = 0;
+                    diem = 0;
+                    lblDiem.Text = "Điểm: 0";
+                    danhSachCauHoi = danhSachCauHoi.OrderBy(x => rand.Next()).ToList();
+                    thoiGianBatDau = DateTime.Now;
+                    LoadCauHoi();
+                }
+                else
+                {
+                    this.Close();
+                }
             }
         }
 
