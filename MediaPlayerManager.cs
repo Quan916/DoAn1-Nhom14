@@ -1,15 +1,15 @@
-﻿using System;
+﻿using AxWMPLib;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AxWMPLib;
-using System.IO;
 using System.Windows.Forms;
 
 namespace Đồ_án_1___Nhóm_14
 {
-    internal static class MediaPlayerManager
+    internal class MediaPlayerManager
     {
         public static AxWindowsMediaPlayer Player { get; private set; }
 
@@ -22,7 +22,7 @@ namespace Đồ_án_1___Nhóm_14
             string musicSettingPath = Properties.Settings.Default.MusicPath;
 
             if (string.IsNullOrWhiteSpace(musicSettingPath))
-                return; // Không có file nhạc => không phát
+                return;
 
             string fullPath = Path.IsPathRooted(musicSettingPath)
                 ? musicSettingPath
@@ -72,7 +72,6 @@ namespace Đồ_án_1___Nhóm_14
             Player.URL = path;
             Player.Ctlcontrols.play();
 
-            // Lưu đường dẫn tương đối
             string relativePath = path.StartsWith(Application.StartupPath)
                 ? path.Substring(Application.StartupPath.Length).TrimStart('\\')
                 : path;
