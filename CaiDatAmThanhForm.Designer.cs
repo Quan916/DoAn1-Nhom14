@@ -31,27 +31,24 @@
             this.btnChonNhac = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).BeginInit();
             this.SuspendLayout();
-            // 
+
             // trackVolume
-            // 
             this.trackVolume.Location = new System.Drawing.Point(12, 20);
             this.trackVolume.Maximum = 100;
             this.trackVolume.Name = "trackVolume";
             this.trackVolume.Size = new System.Drawing.Size(279, 56);
             this.trackVolume.TabIndex = 0;
             this.trackVolume.TickFrequency = 10;
-            // 
+
             // btnToggleLoop
-            // 
             this.btnToggleLoop.Location = new System.Drawing.Point(62, 99);
             this.btnToggleLoop.Name = "btnToggleLoop";
             this.btnToggleLoop.Size = new System.Drawing.Size(180, 35);
             this.btnToggleLoop.TabIndex = 1;
             this.btnToggleLoop.Text = "🔁 Lặp: BẬT";
             this.btnToggleLoop.UseVisualStyleBackColor = true;
-            // 
+
             // btnChonNhac
-            // 
             this.btnChonNhac.Location = new System.Drawing.Point(62, 158);
             this.btnChonNhac.Name = "btnChonNhac";
             this.btnChonNhac.Size = new System.Drawing.Size(180, 35);
@@ -59,9 +56,8 @@
             this.btnChonNhac.Text = "🎵 Chọn nhạc";
             this.btnChonNhac.UseVisualStyleBackColor = true;
             this.btnChonNhac.Click += new System.EventHandler(this.btnChonNhac_Click);
-            // 
+
             // CaiDatAmThanhForm
-            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(303, 234);
@@ -78,7 +74,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
     }
 }

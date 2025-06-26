@@ -23,7 +23,7 @@ CREATE TABLE CauHoi (
     DapAnD NVARCHAR(255),
     DapAnDung CHAR(1) CHECK (DapAnDung IN ('A', 'B', 'C', 'D')) NOT NULL,
     GiaiThich NVARCHAR(MAX),
-    HinhAnh NVARCHAR(255), -- Đường dẫn ảnh minh họa (nếu có)
+    HinhAnh NVARCHAR(255), -- (nếu có)
     CONSTRAINT FK_CauHoi_ChuDe 
         FOREIGN KEY (ChuDeID) REFERENCES ChuDe(ID)
         ON DELETE CASCADE 
@@ -67,7 +67,7 @@ ADD CONSTRAINT FK_XepHang_DoiChoi
     ON UPDATE CASCADE;
 GO
 
--- DỮ LIỆU CHỦ ĐỀ MẪU
+-- DỮ LIỆU CHỦ ĐỀ
 INSERT INTO ChuDe (TenChuDe) VALUES 
 (N'Lịch sử'), (N'Khoa học'), (N'Địa lý'), (N'Thể thao'),
 (N'Âm nhạc'), (N'Công nghệ'), (N'Văn học'), (N'Thế giới'), (N'Hóa học');

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Đồ_án_1___Nhóm_14
 {
-    public static class MediaPlayerManager
+    internal static class MediaPlayerManager
     {
         public static AxWindowsMediaPlayer Player { get; private set; }
 

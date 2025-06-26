@@ -38,9 +38,8 @@
             this.btnThoat = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.axWMP)).BeginInit();
             this.SuspendLayout();
-            // 
+
             // lblTieuDe
-            // 
             this.lblTieuDe.AutoSize = true;
             this.lblTieuDe.Font = new System.Drawing.Font("Segoe UI", 25F, System.Drawing.FontStyle.Bold);
             this.lblTieuDe.Location = new System.Drawing.Point(140, 100);
@@ -48,9 +47,8 @@
             this.lblTieuDe.Size = new System.Drawing.Size(800, 57);
             this.lblTieuDe.TabIndex = 0;
             this.lblTieuDe.Text = "🧠 Trò chơi Đố vui Kiến thức Tổng hợp";
-            // 
+
             // btnChonChuDe
-            // 
             this.btnChonChuDe.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.btnChonChuDe.Location = new System.Drawing.Point(401, 210);
             this.btnChonChuDe.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -60,9 +58,8 @@
             this.btnChonChuDe.Text = "📚 Chọn Chủ Đề";
             this.btnChonChuDe.UseVisualStyleBackColor = true;
             this.btnChonChuDe.Click += new System.EventHandler(this.btnChonChuDe_Click);
-            // 
+
             // btnBangXepHang
-            // 
             this.btnBangXepHang.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.btnBangXepHang.Location = new System.Drawing.Point(401, 270);
             this.btnBangXepHang.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -72,9 +69,8 @@
             this.btnBangXepHang.Text = "📈 Bảng Xếp Hạng";
             this.btnBangXepHang.UseVisualStyleBackColor = true;
             this.btnBangXepHang.Click += new System.EventHandler(this.btnBangXepHang_Click);
-            // 
+
             // axWMP
-            // 
             this.axWMP.Enabled = true;
             this.axWMP.Location = new System.Drawing.Point(0, 0);
             this.axWMP.Name = "axWMP";
@@ -82,9 +78,8 @@
             this.axWMP.Size = new System.Drawing.Size(0, 0);
             this.axWMP.TabIndex = 4;
             this.axWMP.Visible = false;
-            // 
+
             // btnSetting
-            // 
             this.btnSetting.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.btnSetting.Location = new System.Drawing.Point(401, 330);
             this.btnSetting.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -94,9 +89,8 @@
             this.btnSetting.Text = "⚙️ Cài Đặt";
             this.btnSetting.UseVisualStyleBackColor = true;
             this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
-            // 
+
             // btnThoat
-            // 
             this.btnThoat.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.btnThoat.Location = new System.Drawing.Point(401, 390);
             this.btnThoat.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -106,9 +100,8 @@
             this.btnThoat.Text = "❌ Thoát";
             this.btnThoat.UseVisualStyleBackColor = true;
             this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
-            // 
+
             // TrangChuForm
-            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 480);
@@ -126,7 +119,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.axWMP)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
     }
 }

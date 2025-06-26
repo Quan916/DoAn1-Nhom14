@@ -35,9 +35,8 @@ namespace Đồ_án_1___Nhóm_14
             this.btnReset = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvXepHang)).BeginInit();
             this.SuspendLayout();
-            // 
+
             // lblTieuDe
-            // 
             this.lblTieuDe.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
             this.lblTieuDe.Location = new System.Drawing.Point(0, 20);
             this.lblTieuDe.Name = "lblTieuDe";
@@ -45,9 +44,8 @@ namespace Đồ_án_1___Nhóm_14
             this.lblTieuDe.TabIndex = 0;
             this.lblTieuDe.Text = "🎖️ BẢNG XẾP HẠNG";
             this.lblTieuDe.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
+
             // dgvXepHang
-            // 
             this.dgvXepHang.AllowUserToAddRows = false;
             this.dgvXepHang.AllowUserToDeleteRows = false;
             this.dgvXepHang.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -60,9 +58,8 @@ namespace Đồ_án_1___Nhóm_14
             this.dgvXepHang.RowHeadersWidth = 51;
             this.dgvXepHang.Size = new System.Drawing.Size(682, 281);
             this.dgvXepHang.TabIndex = 1;
-            // 
+
             // btnDong
-            // 
             this.btnDong.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.btnDong.Location = new System.Drawing.Point(548, 394);
             this.btnDong.Name = "btnDong";
@@ -71,9 +68,8 @@ namespace Đồ_án_1___Nhóm_14
             this.btnDong.Text = "Đóng";
             this.btnDong.UseVisualStyleBackColor = true;
             this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
-            // 
+
             // btnReset
-            // 
             this.btnReset.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.btnReset.Location = new System.Drawing.Point(370, 394);
             this.btnReset.Name = "btnReset";
@@ -81,9 +77,8 @@ namespace Đồ_án_1___Nhóm_14
             this.btnReset.TabIndex = 0;
             this.btnReset.Text = "Reset";
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
-            // 
+
             // XepHangForm
-            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
@@ -99,7 +94,6 @@ namespace Đồ_án_1___Nhóm_14
             this.Text = "Bảng Xếp Hạng";
             ((System.ComponentModel.ISupportInitialize)(this.dgvXepHang)).EndInit();
             this.ResumeLayout(false);
-
         }
     }
 }
