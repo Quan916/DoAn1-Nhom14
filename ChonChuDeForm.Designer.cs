@@ -175,7 +175,7 @@
             // lblTieuDe
             // 
             this.lblTieuDe.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
-            this.lblTieuDe.ForeColor = System.Drawing.Color.DarkBlue;
+            this.lblTieuDe.ForeColor = System.Drawing.Color.Black;
             this.lblTieuDe.Location = new System.Drawing.Point(0, 20);
             this.lblTieuDe.Name = "lblTieuDe";
             this.lblTieuDe.Size = new System.Drawing.Size(1024, 50);
@@ -200,6 +200,7 @@
             this.Controls.Add(this.btnHuy);
             this.Name = "ChonChuDeForm";
             this.ResumeLayout(false);
+
         }
     }
 }

@@ -17,10 +17,18 @@ namespace Đồ_án_1___Nhóm_14
     public partial class TrangChuForm : Form
     {
         private List<CauHoi> cauHoi = new List<CauHoi>();
+        private TrackBar trackVolume;
+        private Button btnToggleLoop;
+        private Button btnChonNhac;
 
         public TrangChuForm()
         {
             InitializeComponent();
+        }
+
+        private void TrangChuForm_Load(object sender, EventArgs e)
+        {
+            MediaPlayerManager.Init(axWMP);
         }
 
         private void btnChonChuDe_Click(object sender, EventArgs e)
@@ -61,6 +69,102 @@ namespace Đồ_án_1___Nhóm_14
         {
             XepHangForm diemForm = new XepHangForm();
             diemForm.ShowDialog();
+        }
+
+        private void btnSetting_Click(object sender, EventArgs e)
+        {
+            Form popup = new Form();
+            popup.Text = "Cài đặt âm thanh";
+            popup.FormBorderStyle = FormBorderStyle.FixedDialog;
+            popup.StartPosition = FormStartPosition.CenterParent;
+            popup.ClientSize = new System.Drawing.Size(240, 200);
+
+            trackVolume = new TrackBar();
+            trackVolume.Location = new System.Drawing.Point(30, 20);
+            trackVolume.Maximum = 100;
+            trackVolume.Value = Properties.Settings.Default.Volume;
+            trackVolume.Scroll += (s, ev) => MediaPlayerManager.SetVolume(trackVolume.Value);
+
+            btnToggleLoop = new Button();
+            btnToggleLoop.Text = Properties.Settings.Default.IsLoop ? "🔁 Lặp: BẬT" : "⏹️ Lặp: TẮT";
+            btnToggleLoop.Size = new System.Drawing.Size(150, 30);
+            btnToggleLoop.Location = new System.Drawing.Point(30, 70);
+            btnToggleLoop.Click += (s, ev) =>
+            {
+                MediaPlayerManager.ToggleLoop();
+                btnToggleLoop.Text = Properties.Settings.Default.IsLoop ? "🔁 Lặp: BẬT" : "⏹️ Lặp: TẮT";
+            };
+
+            btnChonNhac = new Button();
+            btnChonNhac.Text = "🎵 Chọn nhạc";
+            btnChonNhac.Size = new System.Drawing.Size(150, 30);
+            btnChonNhac.Location = new System.Drawing.Point(30, 120);
+            btnChonNhac.Click += (s, ev) =>
+            {
+                Form chonNhacForm = new Form();
+                chonNhacForm.Text = "Chọn nhạc nền";
+                chonNhacForm.Size = new Size(300, 180);
+                chonNhacForm.StartPosition = FormStartPosition.CenterParent;
+                chonNhacForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+                chonNhacForm.MaximizeBox = false;
+                chonNhacForm.MinimizeBox = false;
+
+                Label lbl = new Label()
+                {
+                    Text = "🎵 Chọn nhạc nền:",
+                    Location = new Point(20, 20),
+                    AutoSize = true
+                };
+
+                ComboBox cboNhac = new ComboBox()
+                {
+                    Location = new Point(20, 50),
+                    Size = new Size(240, 25),
+                    DropDownStyle = ComboBoxStyle.DropDownList
+                };
+
+                string musicFolder = Path.Combine(Application.StartupPath, "Music");
+
+                if (!Directory.Exists(musicFolder))
+                {
+                    Directory.CreateDirectory(musicFolder);
+                }
+
+                string[] files = Directory.GetFiles(musicFolder, "*.mp3");
+
+                foreach (var file in files)
+                {
+                    cboNhac.Items.Add(Path.GetFileName(file));
+                }
+
+                if (cboNhac.Items.Count > 0)
+                {
+                    cboNhac.SelectedIndex = 0;
+                }
+
+                Button btnOK = new Button()
+                {
+                    Text = "▶️ Phát",
+                    Location = new Point(100, 90),
+                    DialogResult = DialogResult.OK
+                };
+
+                chonNhacForm.Controls.Add(lbl);
+                chonNhacForm.Controls.Add(cboNhac);
+                chonNhacForm.Controls.Add(btnOK);
+                chonNhacForm.AcceptButton = btnOK;
+
+                if (chonNhacForm.ShowDialog() == DialogResult.OK)
+                {
+                    string selectedFile = Path.Combine(musicFolder, cboNhac.SelectedItem.ToString());
+                    MediaPlayerManager.ChangeMusic(selectedFile);
+                }
+            };
+
+            popup.Controls.Add(trackVolume);
+            popup.Controls.Add(btnToggleLoop);
+            popup.Controls.Add(btnChonNhac);
+            popup.ShowDialog();
         }
 
         private void btnThoat_Click(object sender, EventArgs e)
