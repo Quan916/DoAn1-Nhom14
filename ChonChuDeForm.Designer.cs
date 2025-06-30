@@ -28,7 +28,7 @@
         private System.Windows.Forms.Button btnKhoaHoc;
         private System.Windows.Forms.Button btnDiaLy;
         private System.Windows.Forms.Button btnTheThao;
-        private System.Windows.Forms.Button btnAmNhac;
+        private System.Windows.Forms.Button btnNgheThuat;
         private System.Windows.Forms.Button btnCongNghe;
         private System.Windows.Forms.Button btnVanHoc;
         private System.Windows.Forms.Button btnTheGioi;
@@ -42,7 +42,7 @@
             this.btnKhoaHoc = new System.Windows.Forms.Button();
             this.btnDiaLy = new System.Windows.Forms.Button();
             this.btnTheThao = new System.Windows.Forms.Button();
-            this.btnAmNhac = new System.Windows.Forms.Button();
+            this.btnNgheThuat = new System.Windows.Forms.Button();
             this.btnCongNghe = new System.Windows.Forms.Button();
             this.btnVanHoc = new System.Windows.Forms.Button();
             this.btnTheGioi = new System.Windows.Forms.Button();
@@ -88,19 +88,19 @@
             this.btnTheThao.Name = "btnTheThao";
             this.btnTheThao.Size = new System.Drawing.Size(200, 50);
             this.btnTheThao.TabIndex = 3;
-            this.btnTheThao.Text = "🌐 Công nghệ";
+            this.btnTheThao.Text = "⚽ Thể thao";
             this.btnTheThao.UseVisualStyleBackColor = true;
             this.btnTheThao.Click += new System.EventHandler(this.btnTheThao_Click);
 
-            // btnAmNhac
-            this.btnAmNhac.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.btnAmNhac.Location = new System.Drawing.Point(424, 170);
-            this.btnAmNhac.Name = "btnAmNhac";
-            this.btnAmNhac.Size = new System.Drawing.Size(200, 50);
-            this.btnAmNhac.TabIndex = 4;
-            this.btnAmNhac.Text = "📚 Văn học";
-            this.btnAmNhac.UseVisualStyleBackColor = true;
-            this.btnAmNhac.Click += new System.EventHandler(this.btnAmNhac_Click);
+            // btnNgheThuat
+            this.btnNgheThuat.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnNgheThuat.Location = new System.Drawing.Point(424, 170);
+            this.btnNgheThuat.Name = "btnNgheThuat";
+            this.btnNgheThuat.Size = new System.Drawing.Size(200, 50);
+            this.btnNgheThuat.TabIndex = 4;
+            this.btnNgheThuat.Text = "🎨 Nghệ thuật";
+            this.btnNgheThuat.UseVisualStyleBackColor = true;
+            this.btnNgheThuat.Click += new System.EventHandler(this.btnNgheThuat_Click);
 
             // btnCongNghe
             this.btnCongNghe.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
@@ -108,7 +108,7 @@
             this.btnCongNghe.Name = "btnCongNghe";
             this.btnCongNghe.Size = new System.Drawing.Size(200, 50);
             this.btnCongNghe.TabIndex = 5;
-            this.btnCongNghe.Text = "🎨 Nghệ thuật";
+            this.btnCongNghe.Text = "🌐 Công nghệ";
             this.btnCongNghe.UseVisualStyleBackColor = true;
             this.btnCongNghe.Click += new System.EventHandler(this.btnCongNghe_Click);
 
@@ -118,7 +118,7 @@
             this.btnVanHoc.Name = "btnVanHoc";
             this.btnVanHoc.Size = new System.Drawing.Size(200, 50);
             this.btnVanHoc.TabIndex = 6;
-            this.btnVanHoc.Text = "⚽ Thể thao";
+            this.btnVanHoc.Text = "📚 Văn học";
             this.btnVanHoc.UseVisualStyleBackColor = true;
             this.btnVanHoc.Click += new System.EventHandler(this.btnVanHoc_Click);
 
@@ -179,7 +179,7 @@
             this.Controls.Add(this.btnKhoaHoc);
             this.Controls.Add(this.btnDiaLy);
             this.Controls.Add(this.btnTheThao);
-            this.Controls.Add(this.btnAmNhac);
+            this.Controls.Add(this.btnNgheThuat);
             this.Controls.Add(this.btnCongNghe);
             this.Controls.Add(this.btnVanHoc);
             this.Controls.Add(this.btnTheGioi);

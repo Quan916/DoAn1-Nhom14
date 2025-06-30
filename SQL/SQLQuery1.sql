@@ -69,8 +69,15 @@ GO
 
 -- DỮ LIỆU CHỦ ĐỀ
 INSERT INTO ChuDe (TenChuDe) VALUES 
-(N'Lịch sử'), (N'Khoa học'), (N'Địa lý'), (N'Thể thao'),
-(N'Âm nhạc'), (N'Công nghệ'), (N'Văn học'), (N'Thế giới'), (N'Hóa học');
+(N'Lịch sử'), 
+(N'Khoa học'), 
+(N'Địa lý'), 
+(N'Thể thao'),
+(N'Nghệ thuật'), 
+(N'Công nghệ'), 
+(N'Văn học'), 
+(N'Thế giới'), 
+(N'Hóa học');
 GO
 
 -- PROCEDURE: LẤY 1 CÂU HỎI NGẪU NHIÊN THEO CHỦ ĐỀ

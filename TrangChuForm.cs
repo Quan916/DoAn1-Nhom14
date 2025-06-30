@@ -52,7 +52,8 @@ namespace Đồ_án_1___Nhóm_14
 
                 var danhSachTheoChuDe = (tenChuDe == "Ngẫu nhiên")
                     ? cauHoi
-                    : cauHoi.Where(ch => ch.ChuDe.Trim() == tenChuDe).ToList();
+                    : cauHoi.Where(ch => string.Equals(ch.ChuDe.Trim(), tenChuDe.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
+
 
                 if (danhSachTheoChuDe.Count == 0)
                 {
@@ -190,7 +191,11 @@ namespace Đồ_án_1___Nhóm_14
                 foreach (DataRow row in table.Rows)
                 {
                     string chuDe = row["ChuDe"].ToString().Trim();
-                    if (!mapChuDe.ContainsKey(chuDe)) continue;
+
+                    var key = mapChuDe.Keys.FirstOrDefault(k =>
+                        string.Equals(k.Trim(), chuDe, StringComparison.OrdinalIgnoreCase));
+
+                    if (key == null) continue;
 
                     string dapAnDung = row["DapAnDung"].ToString().Trim().ToUpper();
                     if (!new[] { "A", "B", "C", "D" }.Contains(dapAnDung)) continue;
@@ -205,13 +210,12 @@ namespace Đồ_án_1___Nhóm_14
                         DapAnDung = dapAnDung,
                         GiaiThich = row["GiaiThich"].ToString(),
                         ChuDe = chuDe,
-                        ChuDeID = mapChuDe[chuDe]
+                        ChuDeID = mapChuDe[key]
                     };
 
                     danhSach.Add(ch);
                 }
             }
-
             return danhSach;
         }
 
