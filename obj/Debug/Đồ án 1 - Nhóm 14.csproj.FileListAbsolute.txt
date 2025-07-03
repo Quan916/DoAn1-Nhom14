@@ -35,3 +35,4 @@ D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ
 D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\Interop.WMPLib.dll
 D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\AxInterop.WMPLib.dll
 D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ án 1 - Nhóm 14.exe.config
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\FontAwesome.Sharp.dll

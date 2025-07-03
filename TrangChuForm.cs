@@ -235,7 +235,7 @@ namespace Đồ_án_1___Nhóm_14
                         int id = Convert.ToInt32(reader["ID"]);
                         map[ten] = id;
                     }
-                }
+                }   
             }
             return map;
         }
