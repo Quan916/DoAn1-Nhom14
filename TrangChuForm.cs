@@ -34,37 +34,28 @@ namespace Đồ_án_1___Nhóm_14
 
         private void btnChonChuDe_Click(object sender, EventArgs e)
         {
-            if (cauHoi.Count == 0)
-            {
-                string filePath = Application.StartupPath + @"\CauHoi.xlsx";
-                if (!File.Exists(filePath))
-                {
-                    MessageBox.Show("Không tìm thấy file CauHoi.xlsx trong thư mục chương trình!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                cauHoi = DoccauHoi(filePath);
-            }
-
+            this.Hide(); // Ẩn TrangChuForm
             var formChon = new ChonChuDeForm();
+
             if (formChon.ShowDialog() == DialogResult.OK)
             {
                 string tenChuDe = formChon.ChuDeDuocChon;
-
-                var danhSachTheoChuDe = (tenChuDe == "Ngẫu nhiên")
+                var danhSachTheoChuDe = tenChuDe == "Ngẫu nhiên"
                     ? cauHoi
-                    : cauHoi.Where(ch => string.Equals(ch.ChuDe.Trim(), tenChuDe.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
-
+                    : cauHoi.Where(ch => ch.ChuDe.Trim().Equals(tenChuDe.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
 
                 if (danhSachTheoChuDe.Count == 0)
                 {
-                    MessageBox.Show("Không có câu hỏi nào thuộc chủ đề này.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Không có câu hỏi nào.");
+                    this.Show(); // Hiện lại TrangChuForm
                     return;
                 }
 
                 var choiForm = new ChoiForm(danhSachTheoChuDe, tenChuDe, doiChoiID);
-                choiForm.ShowDialog();
+                choiForm.ShowDialog(); // Chặn luồng tới khi đóng
             }
+
+            this.Show(); // Dù có chơi hay không, sau khi ChonChuDeForm đóng thì hiện lại
         }
 
         private void btnBangXepHang_Click(object sender, EventArgs e)

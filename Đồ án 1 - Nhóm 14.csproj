@@ -131,6 +131,7 @@
     <Compile Include="ChonDoiForm.Designer.cs">
       <DependentUpon>ChonDoiForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormState.cs" />
     <Compile Include="MediaPlayerManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
