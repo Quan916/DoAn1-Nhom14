@@ -20,6 +20,7 @@ namespace Đồ_án_1___Nhóm_14
         private TrackBar trackVolume;
         private Button btnToggleLoop;
         private Button btnChonNhac;
+        private int? doiChoiID = null;
 
         public TrangChuForm()
         {
@@ -61,7 +62,7 @@ namespace Đồ_án_1___Nhóm_14
                     return;
                 }
 
-                var choiForm = new ChoiForm(danhSachTheoChuDe, tenChuDe);
+                var choiForm = new ChoiForm(danhSachTheoChuDe, tenChuDe, doiChoiID);
                 choiForm.ShowDialog();
             }
         }
@@ -239,5 +240,16 @@ namespace Đồ_án_1___Nhóm_14
             }
             return map;
         }
+
+        private void btnChonDoi_Click(object sender, EventArgs e)
+        {
+            ChonDoiForm form = new ChonDoiForm();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                doiChoiID = form.DoiChoiID;
+                MessageBox.Show("✅ Đã chọn đội chơi!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
     }
 }

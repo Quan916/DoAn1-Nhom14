@@ -4,35 +4,38 @@ GO
 -- BẢNG CHỦ ĐỀ
 CREATE TABLE ChuDe (
     ID INT PRIMARY KEY IDENTITY(1,1),
-    TenChuDe NVARCHAR(100) NOT NULL
+    TenChuDe NVARCHAR(100) NOT NULL UNIQUE
 );
-GO
-
-ALTER TABLE ChuDe 
-ADD CONSTRAINT UQ_TenChuDe UNIQUE (TenChuDe);
 GO
 
 -- BẢNG CÂU HỎI
 CREATE TABLE CauHoi (
     ID INT PRIMARY KEY IDENTITY(1,1),
     ChuDeID INT NOT NULL,
-    NoiDung NVARCHAR(MAX) NOT NULL,
+    NoiDung NVARCHAR(MAX) NOT NULL UNIQUE,
     DapAnA NVARCHAR(255),
     DapAnB NVARCHAR(255),
     DapAnC NVARCHAR(255),
     DapAnD NVARCHAR(255),
     DapAnDung CHAR(1) CHECK (DapAnDung IN ('A', 'B', 'C', 'D')) NOT NULL,
     GiaiThich NVARCHAR(MAX),
-    HinhAnh NVARCHAR(255), -- (nếu có)
+    HinhAnh NVARCHAR(255),
     CONSTRAINT FK_CauHoi_ChuDe 
         FOREIGN KEY (ChuDeID) REFERENCES ChuDe(ID)
-        ON DELETE CASCADE 
-        ON UPDATE CASCADE
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 GO
 
-ALTER TABLE CauHoi
-ADD CONSTRAINT UQ_NoiDung UNIQUE (NoiDung); -- Chống trùng câu hỏi
+-- BẢNG ĐỘI CHƠI
+CREATE TABLE DoiChoi (
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    TenDoi NVARCHAR(100) NOT NULL
+);
+GO
+
+-- Ràng buộc duy nhất tên đội
+ALTER TABLE DoiChoi
+ADD CONSTRAINT UQ_TenDoi UNIQUE (TenDoi);
 GO
 
 -- BẢNG XẾP HẠNG
@@ -41,30 +44,13 @@ CREATE TABLE XepHang (
     Diem INT NOT NULL CHECK (Diem >= 0),
     ThoiGianTraLoi INT NOT NULL CHECK (ThoiGianTraLoi >= 0),
     ThoiGian DATETIME DEFAULT GETDATE(),
-    ChuDeID INT,
-    DoiChoiID INT NULL
-);
-GO
-
-ALTER TABLE XepHang
-ADD CONSTRAINT FK_XepHang_ChuDe
+    ChuDeID INT NULL,
+    DoiChoiID INT NULL,
     FOREIGN KEY (ChuDeID) REFERENCES ChuDe(ID)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE;
-GO
-
--- BẢNG ĐỘI CHƠI (đấu đôi/đội)
-CREATE TABLE DoiChoi (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    TenDoi NVARCHAR(100) NOT NULL
-);
-GO
-
-ALTER TABLE XepHang
-ADD CONSTRAINT FK_XepHang_DoiChoi
+        ON DELETE SET NULL ON UPDATE CASCADE,
     FOREIGN KEY (DoiChoiID) REFERENCES DoiChoi(ID)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE;
+        ON DELETE SET NULL ON UPDATE CASCADE
+);
 GO
 
 -- DỮ LIỆU CHỦ ĐỀ
@@ -80,7 +66,7 @@ INSERT INTO ChuDe (TenChuDe) VALUES
 (N'Hóa học');
 GO
 
--- PROCEDURE: LẤY 1 CÂU HỎI NGẪU NHIÊN THEO CHỦ ĐỀ
+-- PROCEDURE: LẤY CÂU HỎI NGẪU NHIÊN THEO CHỦ ĐỀ
 CREATE PROCEDURE sp_LayCauHoiNgauNhienTheoChuDe
     @ChuDeID INT
 AS
@@ -93,7 +79,7 @@ BEGIN
 END;
 GO
 
--- PROCEDURE: LẤY 1 CÂU HỎI NGẪU NHIÊN KHÔNG THEO CHỦ ĐỀ
+-- PROCEDURE: LẤY CÂU HỎI NGẪU NHIÊN KHÔNG THEO CHỦ ĐỀ
 CREATE PROCEDURE sp_LayCauHoiNgauNhien
 AS
 BEGIN
@@ -116,7 +102,7 @@ BEGIN
 END;
 GO
 
--- VIEW: XẾP HẠNG CHI TIẾT
+-- VIEW: XẾP HẠNG CHI TIẾT (cá nhân & đội)
 CREATE VIEW vw_XepHangChiTiet AS
 SELECT 
     ROW_NUMBER() OVER (ORDER BY XH.Diem DESC, XH.ThoiGianTraLoi ASC) AS STT,
@@ -130,7 +116,19 @@ LEFT JOIN ChuDe AS CH ON XH.ChuDeID = CH.ID
 LEFT JOIN DoiChoi AS DC ON XH.DoiChoiID = DC.ID;
 GO
 
--- VIEW: THỐNG KÊ ĐIỂM TRUNG BÌNH THEO CHỦ ĐỀ
+-- VIEW: XẾP HẠNG ĐỘI NHÓM RIÊNG
+CREATE VIEW vw_XepHangDoiNhom AS
+SELECT 
+    DC.TenDoi,
+    MAX(XH.Diem) AS DiemCaoNhat,
+    AVG(XH.Diem) AS DiemTrungBinh,
+    COUNT(*) AS SoLuotChoi
+FROM XepHang XH
+JOIN DoiChoi DC ON XH.DoiChoiID = DC.ID
+GROUP BY DC.TenDoi;
+GO
+
+-- VIEW: THỐNG KÊ ĐIỂM THEO CHỦ ĐỀ
 CREATE VIEW vw_ThongKeXepHang AS
 SELECT 
     CH.TenChuDe,
@@ -143,10 +141,16 @@ LEFT JOIN ChuDe CH ON X.ChuDeID = CH.ID
 GROUP BY CH.TenChuDe;
 GO
 
--- VIEW: ĐẾM TỔNG SỐ CÂU HỎI MỖI CHỦ ĐỀ
+-- VIEW: ĐẾM TỔNG SỐ CÂU HỎI THEO CHỦ ĐỀ
 CREATE VIEW vw_TongSoCauHoiTheoChuDe AS
 SELECT CH.TenChuDe, COUNT(*) AS TongCauHoi
 FROM CauHoi C
 JOIN ChuDe CH ON C.ChuDeID = CH.ID
 GROUP BY CH.TenChuDe;
+GO
+
+-- INDEX hỗ trợ hiệu năng
+CREATE INDEX IX_CauHoi_ChuDeID ON CauHoi(ChuDeID);
+CREATE INDEX IX_XepHang_ChuDeID ON XepHang(ChuDeID);
+CREATE INDEX IX_XepHang_DoiChoiID ON XepHang(DoiChoiID);
 GO

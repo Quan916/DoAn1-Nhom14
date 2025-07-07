@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FontAwesome.Sharp;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -24,127 +25,160 @@ namespace Đồ_án_1___Nhóm_14
             base.Dispose(disposing);
         }
 
-        private System.Windows.Forms.Label lblTieuDe;
+        private Label lblTieuDe;
+        private TableLayoutPanel buttonGrid;
         private FontAwesome.Sharp.IconButton btnChonChuDe;
+        private FontAwesome.Sharp.IconButton btnChonDoi;
         private FontAwesome.Sharp.IconButton btnBangXepHang;
         private FontAwesome.Sharp.IconButton btnSetting;
         private FontAwesome.Sharp.IconButton btnThoat;
         private AxWMPLib.AxWindowsMediaPlayer axWMP;
-        private TableLayoutPanel buttonGrid;
 
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrangChuForm));
             this.lblTieuDe = new System.Windows.Forms.Label();
             this.btnChonChuDe = new FontAwesome.Sharp.IconButton();
+            this.btnChonDoi = new FontAwesome.Sharp.IconButton();
             this.btnBangXepHang = new FontAwesome.Sharp.IconButton();
             this.btnSetting = new FontAwesome.Sharp.IconButton();
             this.btnThoat = new FontAwesome.Sharp.IconButton();
-            this.buttonGrid = new System.Windows.Forms.TableLayoutPanel();
             this.axWMP = new AxWMPLib.AxWindowsMediaPlayer();
-
-            this.buttonGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axWMP)).BeginInit();
             this.SuspendLayout();
-
+            // 
             // lblTieuDe
-            this.lblTieuDe.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
-            this.lblTieuDe.ForeColor = Color.DarkSlateGray;
-            this.lblTieuDe.Location = new Point(0, 20);
+            // 
+            this.lblTieuDe.Font = new System.Drawing.Font("Segoe UI", 28F, System.Drawing.FontStyle.Bold);
+            this.lblTieuDe.ForeColor = System.Drawing.Color.DarkSlateBlue;
+            this.lblTieuDe.Location = new System.Drawing.Point(0, 86);
             this.lblTieuDe.Name = "lblTieuDe";
-            this.lblTieuDe.Size = new Size(800, 60);
+            this.lblTieuDe.Size = new System.Drawing.Size(800, 70);
+            this.lblTieuDe.TabIndex = 0;
             this.lblTieuDe.Text = "🧠 Đố Vui Kiến Thức Tổng Hợp";
-            this.lblTieuDe.TextAlign = ContentAlignment.MiddleCenter;
-
+            this.lblTieuDe.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // btnChonChuDe
-            this.btnChonChuDe.BackColor = Color.RoyalBlue;
-            this.btnChonChuDe.Dock = DockStyle.Fill;
-            this.btnChonChuDe.FlatStyle = FlatStyle.Flat;
-            this.btnChonChuDe.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            this.btnChonChuDe.ForeColor = Color.White;
+            // 
+            this.btnChonChuDe.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnChonChuDe.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnChonChuDe.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnChonChuDe.ForeColor = System.Drawing.Color.White;
             this.btnChonChuDe.IconChar = FontAwesome.Sharp.IconChar.BookOpen;
-            this.btnChonChuDe.IconColor = Color.White;
+            this.btnChonChuDe.IconColor = System.Drawing.Color.White;
             this.btnChonChuDe.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnChonChuDe.IconSize = 32;
+            this.btnChonChuDe.Location = new System.Drawing.Point(214, 195);
+            this.btnChonChuDe.Name = "btnChonChuDe";
+            this.btnChonChuDe.Size = new System.Drawing.Size(200, 50);
+            this.btnChonChuDe.TabIndex = 1;
             this.btnChonChuDe.Text = "Chọn Chủ Đề";
-            this.btnChonChuDe.TextImageRelation = TextImageRelation.ImageBeforeText;
-            this.btnChonChuDe.Click += new EventHandler(this.btnChonChuDe_Click);
-
+            this.btnChonChuDe.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnChonChuDe.UseVisualStyleBackColor = false;
+            this.btnChonChuDe.Click += new System.EventHandler(this.btnChonChuDe_Click);
+            // 
+            // btnChonDoi
+            // 
+            this.btnChonDoi.BackColor = System.Drawing.Color.DarkOrange;
+            this.btnChonDoi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnChonDoi.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnChonDoi.ForeColor = System.Drawing.Color.White;
+            this.btnChonDoi.IconChar = FontAwesome.Sharp.IconChar.Users;
+            this.btnChonDoi.IconColor = System.Drawing.Color.White;
+            this.btnChonDoi.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnChonDoi.IconSize = 32;
+            this.btnChonDoi.Location = new System.Drawing.Point(420, 195);
+            this.btnChonDoi.Name = "btnChonDoi";
+            this.btnChonDoi.Size = new System.Drawing.Size(200, 50);
+            this.btnChonDoi.TabIndex = 2;
+            this.btnChonDoi.Text = "Chọn Đội";
+            this.btnChonDoi.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnChonDoi.UseVisualStyleBackColor = false;
+            this.btnChonDoi.Click += new System.EventHandler(this.btnChonDoi_Click);
+            // 
             // btnBangXepHang
-            this.btnBangXepHang.BackColor = Color.MediumSeaGreen;
-            this.btnBangXepHang.Dock = DockStyle.Fill;
-            this.btnBangXepHang.FlatStyle = FlatStyle.Flat;
-            this.btnBangXepHang.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            this.btnBangXepHang.ForeColor = Color.White;
+            // 
+            this.btnBangXepHang.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.btnBangXepHang.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBangXepHang.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnBangXepHang.ForeColor = System.Drawing.Color.White;
             this.btnBangXepHang.IconChar = FontAwesome.Sharp.IconChar.ChartLine;
-            this.btnBangXepHang.IconColor = Color.White;
+            this.btnBangXepHang.IconColor = System.Drawing.Color.White;
             this.btnBangXepHang.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnBangXepHang.IconSize = 32;
+            this.btnBangXepHang.Location = new System.Drawing.Point(214, 251);
+            this.btnBangXepHang.Name = "btnBangXepHang";
+            this.btnBangXepHang.Size = new System.Drawing.Size(200, 50);
+            this.btnBangXepHang.TabIndex = 3;
             this.btnBangXepHang.Text = "Bảng Xếp Hạng";
-            this.btnBangXepHang.TextImageRelation = TextImageRelation.ImageBeforeText;
-            this.btnBangXepHang.Click += new EventHandler(this.btnBangXepHang_Click);
-
+            this.btnBangXepHang.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnBangXepHang.UseVisualStyleBackColor = false;
+            this.btnBangXepHang.Click += new System.EventHandler(this.btnBangXepHang_Click);
+            // 
             // btnSetting
-            this.btnSetting.BackColor = Color.SlateGray;
-            this.btnSetting.Dock = DockStyle.Fill;
-            this.btnSetting.FlatStyle = FlatStyle.Flat;
-            this.btnSetting.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            this.btnSetting.ForeColor = Color.White;
+            // 
+            this.btnSetting.BackColor = System.Drawing.Color.SlateGray;
+            this.btnSetting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSetting.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnSetting.ForeColor = System.Drawing.Color.White;
             this.btnSetting.IconChar = FontAwesome.Sharp.IconChar.Gears;
-            this.btnSetting.IconColor = Color.White;
+            this.btnSetting.IconColor = System.Drawing.Color.White;
             this.btnSetting.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnSetting.IconSize = 32;
+            this.btnSetting.Location = new System.Drawing.Point(420, 251);
+            this.btnSetting.Name = "btnSetting";
+            this.btnSetting.Size = new System.Drawing.Size(200, 50);
+            this.btnSetting.TabIndex = 4;
             this.btnSetting.Text = "Cài Đặt";
-            this.btnSetting.TextImageRelation = TextImageRelation.ImageBeforeText;
-            this.btnSetting.Click += new EventHandler(this.btnSetting_Click);
-
+            this.btnSetting.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnSetting.UseVisualStyleBackColor = false;
+            this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
+            // 
             // btnThoat
-            this.btnThoat.BackColor = Color.IndianRed;
-            this.btnThoat.Dock = DockStyle.Fill;
-            this.btnThoat.FlatStyle = FlatStyle.Flat;
-            this.btnThoat.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            this.btnThoat.ForeColor = Color.White;
+            // 
+            this.btnThoat.BackColor = System.Drawing.Color.IndianRed;
+            this.btnThoat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnThoat.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnThoat.ForeColor = System.Drawing.Color.White;
             this.btnThoat.IconChar = FontAwesome.Sharp.IconChar.RightFromBracket;
-            this.btnThoat.IconColor = Color.White;
+            this.btnThoat.IconColor = System.Drawing.Color.White;
             this.btnThoat.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnThoat.IconSize = 32;
+            this.btnThoat.Location = new System.Drawing.Point(312, 307);
+            this.btnThoat.Name = "btnThoat";
+            this.btnThoat.Size = new System.Drawing.Size(208, 50);
+            this.btnThoat.TabIndex = 5;
             this.btnThoat.Text = "Thoát";
-            this.btnThoat.TextImageRelation = TextImageRelation.ImageBeforeText;
-            this.btnThoat.Click += new EventHandler(this.btnThoat_Click);
-
-            // buttonGrid
-            this.buttonGrid.ColumnCount = 2;
-            this.buttonGrid.RowCount = 2;
-            this.buttonGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            this.buttonGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            this.buttonGrid.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            this.buttonGrid.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            this.buttonGrid.Controls.Add(this.btnChonChuDe, 0, 0);
-            this.buttonGrid.Controls.Add(this.btnBangXepHang, 1, 0);
-            this.buttonGrid.Controls.Add(this.btnSetting, 0, 1);
-            this.buttonGrid.Controls.Add(this.btnThoat, 1, 1);
-            this.buttonGrid.Location = new Point(150, 100);
-            this.buttonGrid.Size = new Size(500, 300);
-
+            this.btnThoat.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnThoat.UseVisualStyleBackColor = false;
+            this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
+            // 
             // axWMP
+            // 
             this.axWMP.Enabled = true;
-            this.axWMP.Location = new Point(-500, -500);
+            this.axWMP.Location = new System.Drawing.Point(-500, -500);
             this.axWMP.Name = "axWMP";
-            this.axWMP.OcxState = ((AxHost.State)(resources.GetObject("axWMP.OcxState")));
-            this.axWMP.Size = new Size(75, 23);
-
+            this.axWMP.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWMP.OcxState")));
+            this.axWMP.Size = new System.Drawing.Size(75, 23);
+            this.axWMP.TabIndex = 6;
+            // 
             // TrangChuForm
-            this.ClientSize = new Size(800, 450);
+            // 
+            this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.lblTieuDe);
-            this.Controls.Add(this.buttonGrid);
+            this.Controls.Add(this.btnChonChuDe);
+            this.Controls.Add(this.btnChonDoi);
+            this.Controls.Add(this.btnBangXepHang);
+            this.Controls.Add(this.btnSetting);
+            this.Controls.Add(this.btnThoat);
             this.Controls.Add(this.axWMP);
-            this.StartPosition = FormStartPosition.CenterScreen;
+            this.Name = "TrangChuForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Trò chơi Đố Vui Kiến Thức Tổng Hợp";
-            this.Load += new EventHandler(this.TrangChuForm_Load);
-
-            this.buttonGrid.ResumeLayout(false);
+            this.Load += new System.EventHandler(this.TrangChuForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.axWMP)).EndInit();
             this.ResumeLayout(false);
+
         }
     }
 }

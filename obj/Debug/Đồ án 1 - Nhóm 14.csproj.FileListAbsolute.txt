@@ -36,3 +36,23 @@ D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\Inter
 D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\AxInterop.WMPLib.dll
 D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ án 1 - Nhóm 14.exe.config
 D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\FontAwesome.Sharp.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\Microsoft.Win32.Registry.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\NAudio.Asio.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\NAudio.Core.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\NAudio.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\NAudio.Midi.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\NAudio.Wasapi.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\NAudio.WinForms.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\NAudio.WinMM.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\System.Security.AccessControl.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\System.Security.Principal.Windows.dll
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\Microsoft.Win32.Registry.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\NAudio.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\NAudio.Asio.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\NAudio.Core.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\NAudio.Midi.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\NAudio.Wasapi.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\NAudio.WinForms.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\NAudio.WinMM.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\System.Security.AccessControl.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\System.Security.Principal.Windows.xml

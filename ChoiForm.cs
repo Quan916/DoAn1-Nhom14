@@ -23,14 +23,16 @@ namespace Đồ_án_1___Nhóm_14
         private Random rand = new Random();
         private DateTime thoiGianBatDau;
         private string tenChuDe;
+        private int? doiChoiID;
 
-        public ChoiForm(List<CauHoi> cauHoiExcel, string chuDeDuocChon)
+        public ChoiForm(List<CauHoi> cauHoiExcel, string chuDeDuocChon, int? doiChoiID)
         {
             InitializeComponent();
             HienThiLuatChoi();
             danhSachCauHoi = cauHoiExcel.OrderBy(x => rand.Next()).ToList();
             thoiGianBatDau = DateTime.Now;
             tenChuDe = chuDeDuocChon.Trim();
+            this.doiChoiID = doiChoiID; 
             LoadCauHoi();
         }
 
@@ -40,7 +42,7 @@ namespace Đồ_án_1___Nhóm_14
             {
                 timer1.Stop();
                 int tongThoiGian = (int)(DateTime.Now - thoiGianBatDau).TotalSeconds;
-                LuuDiem(danhSachCauHoi[0].ChuDeID, diem, tongThoiGian);
+                LuuDiem(danhSachCauHoi[0].ChuDeID, diem, tongThoiGian, doiChoiID);
 
                 var choiLai = MessageBox.Show($"🎉 Bạn đã hoàn thành tất cả câu hỏi!\nTổng điểm: {diem}\n\nBạn có muốn chơi lại không?",
                     "Chơi lại", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -90,7 +92,7 @@ namespace Đồ_án_1___Nhóm_14
             {
                 MessageBox.Show($"❌ Sai rồi!\nĐáp án đúng là: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Sai rồi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 int tongThoiGian = (int)(DateTime.Now - thoiGianBatDau).TotalSeconds;
-                LuuDiem(danhSachCauHoi[0].ChuDeID, diem, tongThoiGian);
+                LuuDiem(danhSachCauHoi[0].ChuDeID, diem, tongThoiGian, doiChoiID); 
 
                 var choiLai = MessageBox.Show($"🎯 Trò chơi kết thúc!\nTổng điểm của bạn: {diem}\n\nBạn có muốn chơi lại không?",
                     "Chơi lại", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -120,7 +122,7 @@ namespace Đồ_án_1___Nhóm_14
                 timer1.Stop();
                 MessageBox.Show($"⏰ Hết giờ!\nĐáp án đúng: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Hết thời gian", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 int tongThoiGian = (int)(DateTime.Now - thoiGianBatDau).TotalSeconds;
-                LuuDiem(danhSachCauHoi[0].ChuDeID, diem, tongThoiGian);
+                LuuDiem(danhSachCauHoi[0].ChuDeID, diem, tongThoiGian, doiChoiID);
 
                 var choiLai = MessageBox.Show($"🎯 Trò chơi kết thúc!\nTổng điểm của bạn: {diem}\n\nBạn có muốn chơi lại không?",
                     "Chơi lại", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -140,22 +142,20 @@ namespace Đồ_án_1___Nhóm_14
             }
         }
 
-        private void LuuDiem(int chuDeID, int diem, int thoiGianTraLoi)
+        private void LuuDiem(int chuDeID, int diem, int thoiGianTraLoi, int? doiChoiID)
         {
             string connStr = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DoVuiKienThuc;Integrated Security=True";
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(@"
-                    INSERT INTO XepHang (Diem, ThoiGianTraLoi, ChuDeID)
-                    VALUES (@Diem, @ThoiGianTraLoi, @ChuDeID)", conn);
+            INSERT INTO XepHang (Diem, ThoiGianTraLoi, ChuDeID, DoiChoiID)
+            VALUES (@Diem, @ThoiGianTraLoi, @ChuDeID, @DoiChoiID)", conn);
 
                 cmd.Parameters.AddWithValue("@Diem", diem);
                 cmd.Parameters.AddWithValue("@ThoiGianTraLoi", thoiGianTraLoi);
-                if (tenChuDe == "Ngẫu nhiên")
-                    cmd.Parameters.AddWithValue("@ChuDeID", DBNull.Value);
-                else
-                    cmd.Parameters.AddWithValue("@ChuDeID", chuDeID);
+                cmd.Parameters.AddWithValue("@ChuDeID", tenChuDe == "Ngẫu nhiên" ? (object)DBNull.Value : chuDeID);
+                cmd.Parameters.AddWithValue("@DoiChoiID", doiChoiID.HasValue ? (object)doiChoiID.Value : DBNull.Value);
 
                 cmd.ExecuteNonQuery();
             }
