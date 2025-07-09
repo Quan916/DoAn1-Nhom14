@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Đồ_án_1___Nhóm_14
 {
-    public partial class XepHangForm : Form
+    public partial class XepHangForm : BaseForm
     {
         public XepHangForm()
         {

@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Đồ_án_1___Nhóm_14
 {
-    public partial class ChonDoiForm : Form
+    public partial class ChonDoiForm : BaseForm
     {
         private Dictionary<string, int> doiChoiMap = new Dictionary<string, int>();
         public int? DoiChoiID { get; private set; } = null;

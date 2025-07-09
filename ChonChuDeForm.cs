@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Đồ_án_1___Nhóm_14
 {
-    public partial class ChonChuDeForm : Form
+    public partial class ChonChuDeForm : BaseForm
     {
         public string ChuDeDuocChon { get; private set; } = "";
 

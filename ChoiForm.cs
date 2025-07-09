@@ -12,7 +12,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace Đồ_án_1___Nhóm_14
 {
-    public partial class ChoiForm : Form
+    public partial class ChoiForm : BaseForm
     {
         private List<CauHoi> danhSachCauHoi;
         private int cauHoiHienTai = 0;

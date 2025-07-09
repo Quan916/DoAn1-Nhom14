@@ -1,4 +1,6 @@
-﻿using ExcelDataReader;
+﻿// File: TrangChuForm.cs
+using ExcelDataReader;
+using FontAwesome.Sharp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +16,7 @@ using static Đồ_án_1___Nhóm_14.CauHoi;
 
 namespace Đồ_án_1___Nhóm_14
 {
-    public partial class TrangChuForm : Form
+    public partial class TrangChuForm : BaseForm
     {
         private List<CauHoi> cauHoi = new List<CauHoi>();
         private TrackBar trackVolume;
@@ -25,123 +27,94 @@ namespace Đồ_án_1___Nhóm_14
         public TrangChuForm()
         {
             InitializeComponent();
+            this.Resize += TrangChuForm_Resize;
         }
 
         private void TrangChuForm_Load(object sender, EventArgs e)
         {
             MediaPlayerManager.Init(axWMP);
+
+            string filePath = Path.Combine(Application.StartupPath, "CauHoi.xlsx");
+            if (File.Exists(filePath))
+            {
+                cauHoi = DoccauHoi(filePath);
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy file câu hỏi Excel!");
+            }
+        }
+
+        private void TrangChuForm_Resize(object sender, EventArgs e)
+        {
+            CenterControls();
+        }
+
+        private void CenterControls()
+        {
+            if (lblTieuDe != null)
+                lblTieuDe.Width = this.ClientSize.Width;
+
+            if (buttonPanel != null)
+                buttonPanel.Location = new Point((this.ClientSize.Width - buttonPanel.Width) / 2, buttonPanel.Location.Y);
+
+            if (btnThoat != null)
+                btnThoat.Location = new Point((this.ClientSize.Width - btnThoat.Width) / 2, this.ClientSize.Height - btnThoat.Height - 40);
         }
 
         private void btnChonChuDe_Click(object sender, EventArgs e)
         {
-            this.Hide(); // Ẩn TrangChuForm
-            var formChon = new ChonChuDeForm();
-
-            if (formChon.ShowDialog() == DialogResult.OK)
+            this.Hide();
+            var ChonChuDeForm = new ChonChuDeForm { Size = this.Size, Location = this.Location, StartPosition = FormStartPosition.Manual };
+            if (ChonChuDeForm.ShowDialog() == DialogResult.OK)
             {
-                string tenChuDe = formChon.ChuDeDuocChon;
-                var danhSachTheoChuDe = tenChuDe == "Ngẫu nhiên"
-                    ? cauHoi
-                    : cauHoi.Where(ch => ch.ChuDe.Trim().Equals(tenChuDe.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
+                string tenChuDe = ChonChuDeForm.ChuDeDuocChon;
+                var danhSachTheoChuDe = tenChuDe == "Ngẫu nhiên" ? cauHoi : cauHoi.Where(ch => ch.ChuDe.Trim().Equals(tenChuDe.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
 
                 if (danhSachTheoChuDe.Count == 0)
                 {
                     MessageBox.Show("Không có câu hỏi nào.");
-                    this.Show(); // Hiện lại TrangChuForm
+                    this.Show();
                     return;
                 }
 
                 var choiForm = new ChoiForm(danhSachTheoChuDe, tenChuDe, doiChoiID);
-                choiForm.ShowDialog(); // Chặn luồng tới khi đóng
+                choiForm.ShowDialog();
             }
-
-            this.Show(); // Dù có chơi hay không, sau khi ChonChuDeForm đóng thì hiện lại
+            this.Show();
         }
 
         private void btnBangXepHang_Click(object sender, EventArgs e)
         {
-            XepHangForm diemForm = new XepHangForm();
-            diemForm.ShowDialog();
+            var XepHangForm = new XepHangForm { Size = this.Size, Location = this.Location, StartPosition = FormStartPosition.Manual };
+            XepHangForm.ShowDialog();
         }
 
         private void btnSetting_Click(object sender, EventArgs e)
         {
-            Form popup = new Form();
-            popup.Text = "Cài đặt âm thanh";
-            popup.FormBorderStyle = FormBorderStyle.FixedDialog;
-            popup.StartPosition = FormStartPosition.CenterParent;
-            popup.ClientSize = new System.Drawing.Size(240, 200);
-
-            trackVolume = new TrackBar();
-            trackVolume.Location = new System.Drawing.Point(30, 20);
-            trackVolume.Maximum = 100;
-            trackVolume.Value = Properties.Settings.Default.Volume;
+            Form popup = new Form { Text = "Cài đặt âm thanh", FormBorderStyle = FormBorderStyle.FixedDialog, StartPosition = FormStartPosition.CenterParent, ClientSize = new Size(240, 200) };
+            trackVolume = new TrackBar { Location = new Point(30, 20), Maximum = 100, Value = Properties.Settings.Default.Volume };
             trackVolume.Scroll += (s, ev) => MediaPlayerManager.SetVolume(trackVolume.Value);
 
-            btnToggleLoop = new Button();
-            btnToggleLoop.Text = Properties.Settings.Default.IsLoop ? "🔁 Lặp: BẬT" : "⏹️ Lặp: TẮT";
-            btnToggleLoop.Size = new System.Drawing.Size(150, 30);
-            btnToggleLoop.Location = new System.Drawing.Point(30, 70);
-            btnToggleLoop.Click += (s, ev) =>
-            {
+            btnToggleLoop = new Button { Text = Properties.Settings.Default.IsLoop ? "🔁 Lặp: BẬT" : "⏹️ Lặp: TẮT", Size = new Size(150, 30), Location = new Point(30, 70) };
+            btnToggleLoop.Click += (s, ev) => {
                 MediaPlayerManager.ToggleLoop();
                 btnToggleLoop.Text = Properties.Settings.Default.IsLoop ? "🔁 Lặp: BẬT" : "⏹️ Lặp: TẮT";
             };
 
-            btnChonNhac = new Button();
-            btnChonNhac.Text = "🎵 Chọn nhạc";
-            btnChonNhac.Size = new System.Drawing.Size(150, 30);
-            btnChonNhac.Location = new System.Drawing.Point(30, 120);
+            btnChonNhac = new Button { Text = "🎵 Chọn nhạc", Size = new Size(150, 30), Location = new Point(30, 120) };
             btnChonNhac.Click += (s, ev) =>
             {
-                Form chonNhacForm = new Form();
-                chonNhacForm.Text = "Chọn nhạc nền";
-                chonNhacForm.Size = new Size(300, 180);
-                chonNhacForm.StartPosition = FormStartPosition.CenterParent;
-                chonNhacForm.FormBorderStyle = FormBorderStyle.FixedDialog;
-                chonNhacForm.MaximizeBox = false;
-                chonNhacForm.MinimizeBox = false;
-
-                Label lbl = new Label()
-                {
-                    Text = "🎵 Chọn nhạc nền:",
-                    Location = new Point(20, 20),
-                    AutoSize = true
-                };
-
-                ComboBox cboNhac = new ComboBox()
-                {
-                    Location = new Point(20, 50),
-                    Size = new Size(240, 25),
-                    DropDownStyle = ComboBoxStyle.DropDownList
-                };
+                Form chonNhacForm = new Form { Text = "Chọn nhạc nền", Size = new Size(300, 180), StartPosition = FormStartPosition.CenterParent, FormBorderStyle = FormBorderStyle.FixedDialog };
+                Label lbl = new Label { Text = "🎵 Chọn nhạc nền:", Location = new Point(20, 20), AutoSize = true };
+                ComboBox cboNhac = new ComboBox { Location = new Point(20, 50), Size = new Size(240, 25), DropDownStyle = ComboBoxStyle.DropDownList };
 
                 string musicFolder = Path.Combine(Application.StartupPath, "Music");
+                if (!Directory.Exists(musicFolder)) Directory.CreateDirectory(musicFolder);
+                foreach (var file in Directory.GetFiles(musicFolder, "*.mp3")) cboNhac.Items.Add(Path.GetFileName(file));
+                if (cboNhac.Items.Count > 0) cboNhac.SelectedIndex = 0;
 
-                if (!Directory.Exists(musicFolder))
-                {
-                    Directory.CreateDirectory(musicFolder);
-                }
-
-                string[] files = Directory.GetFiles(musicFolder, "*.mp3");
-
-                foreach (var file in files)
-                {
-                    cboNhac.Items.Add(Path.GetFileName(file));
-                }
-
-                if (cboNhac.Items.Count > 0)
-                {
-                    cboNhac.SelectedIndex = 0;
-                }
-
-                Button btnOK = new Button()
-                {
-                    Text = "▶️ Phát",
-                    Location = new Point(100, 90),
-                    DialogResult = DialogResult.OK
-                };
-
+                Button btnOK = new Button { Text = "▶️ Phát", Location = new Point(100, 90), DialogResult = DialogResult.OK };
                 chonNhacForm.Controls.Add(lbl);
                 chonNhacForm.Controls.Add(cboNhac);
                 chonNhacForm.Controls.Add(btnOK);
@@ -160,6 +133,16 @@ namespace Đồ_án_1___Nhóm_14
             popup.ShowDialog();
         }
 
+        private void btnChonDoi_Click(object sender, EventArgs e)
+        {
+            var form = new ChonDoiForm { Size = this.Size, Location = this.Location, StartPosition = FormStartPosition.Manual };
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                doiChoiID = form.DoiChoiID;
+                MessageBox.Show("✅ Đã chọn đội chơi!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
         private void btnThoat_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -167,9 +150,8 @@ namespace Đồ_án_1___Nhóm_14
 
         public List<CauHoi> DoccauHoi(string filePath)
         {
-            var mapChuDe = LayDanhSachChuDe();
             List<CauHoi> danhSach = new List<CauHoi>();
-            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
             using (var reader = ExcelReaderFactory.CreateReader(stream))
@@ -178,18 +160,14 @@ namespace Đồ_án_1___Nhóm_14
                 {
                     ConfigureDataTable = (_) => new ExcelDataTableConfiguration { UseHeaderRow = true }
                 };
+
                 var table = reader.AsDataSet(config).Tables[0];
 
                 foreach (DataRow row in table.Rows)
                 {
                     string chuDe = row["ChuDe"].ToString().Trim();
-
-                    var key = mapChuDe.Keys.FirstOrDefault(k =>
-                        string.Equals(k.Trim(), chuDe, StringComparison.OrdinalIgnoreCase));
-
-                    if (key == null) continue;
-
                     string dapAnDung = row["DapAnDung"].ToString().Trim().ToUpper();
+
                     if (!new[] { "A", "B", "C", "D" }.Contains(dapAnDung)) continue;
 
                     CauHoi ch = new CauHoi
@@ -202,19 +180,21 @@ namespace Đồ_án_1___Nhóm_14
                         DapAnDung = dapAnDung,
                         GiaiThich = row["GiaiThich"].ToString(),
                         ChuDe = chuDe,
-                        ChuDeID = mapChuDe[key]
+                        ChuDeID = 0 // Không cần nếu không dùng SQL
                     };
 
                     danhSach.Add(ch);
                 }
             }
+
             return danhSach;
         }
+
 
         private Dictionary<string, int> LayDanhSachChuDe()
         {
             var map = new Dictionary<string, int>();
-            string connStr = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DoVuiKienThuc;Integrated Security=True";
+            string connStr = @"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DoVuiKienThuc;Integrated Security=True";
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 conn.Open();
@@ -227,20 +207,9 @@ namespace Đồ_án_1___Nhóm_14
                         int id = Convert.ToInt32(reader["ID"]);
                         map[ten] = id;
                     }
-                }   
+                }
             }
             return map;
         }
-
-        private void btnChonDoi_Click(object sender, EventArgs e)
-        {
-            ChonDoiForm form = new ChonDoiForm();
-            if (form.ShowDialog() == DialogResult.OK)
-            {
-                doiChoiID = form.DoiChoiID;
-                MessageBox.Show("✅ Đã chọn đội chơi!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
     }
 }
