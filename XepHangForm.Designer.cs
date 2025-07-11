@@ -52,11 +52,11 @@ namespace Đồ_án_1___Nhóm_14
             // lblTieuDe
             // 
             this.lblTieuDe.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblTieuDe.Font = new System.Drawing.Font("Segoe UI", 26F, System.Drawing.FontStyle.Bold);
-            this.lblTieuDe.ForeColor = System.Drawing.Color.DarkGreen;
+            this.lblTieuDe.Font = new System.Drawing.Font("Segoe UI", 40F, System.Drawing.FontStyle.Bold);
+            this.lblTieuDe.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lblTieuDe.Location = new System.Drawing.Point(3, 0);
             this.lblTieuDe.Name = "lblTieuDe";
-            this.lblTieuDe.Size = new System.Drawing.Size(1018, 150);
+            this.lblTieuDe.Size = new System.Drawing.Size(1274, 266);
             this.lblTieuDe.TabIndex = 0;
             this.lblTieuDe.Text = "📊 BẢNG XẾP HẠNG";
             this.lblTieuDe.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

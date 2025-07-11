@@ -63,15 +63,14 @@ namespace Đồ_án_1___Nhóm_14
             this.mainLayout.SuspendLayout();
             this.buttonPanel.SuspendLayout();
             this.SuspendLayout();
-            
+
             // lblTieuDe
             this.lblTieuDe.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblTieuDe.Font = new System.Drawing.Font("Segoe UI", 40F, System.Drawing.FontStyle.Bold);
             this.lblTieuDe.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.lblTieuDe.Location = new System.Drawing.Point(2, 0);
-            this.lblTieuDe.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblTieuDe.Location = new System.Drawing.Point(3, 0);
             this.lblTieuDe.Name = "lblTieuDe";
-            this.lblTieuDe.Size = new System.Drawing.Size(764, 98);
+            this.lblTieuDe.Size = new System.Drawing.Size(1274, 266);
             this.lblTieuDe.TabIndex = 0;
             this.lblTieuDe.Text = "🧠 CHỌN CHỦ ĐỀ";
             this.lblTieuDe.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
