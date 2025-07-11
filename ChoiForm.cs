@@ -12,7 +12,7 @@ namespace Đồ_án_1___Nhóm_14
         private List<CauHoi> danhSachCauHoi;
         private int cauHoiHienTai = 0;
         private int diem = 0;
-        private int thoiGianConLai;
+        private double thoiGianConLaiDouble;
         private string dapAnDung = "";
         private string giaiThich = "";
         private Random rand = new Random();
@@ -25,14 +25,13 @@ namespace Đồ_án_1___Nhóm_14
         public ChoiForm(List<CauHoi> cauHoiExcel, string chuDeDuocChon, int? doiChoiID)
         {
             InitializeComponent();
-
             danhSachCauHoi = cauHoiExcel.OrderBy(x => rand.Next()).ToList();
             thoiGianBatDau = DateTime.Now;
             tenChuDe = chuDeDuocChon.Trim();
             this.doiChoiID = doiChoiID;
 
             diem = 0;
-            CapNhatDiem();
+            CapNhatThongTinHeader();
             LoadCauHoi();
         }
 
@@ -44,13 +43,15 @@ namespace Đồ_án_1___Nhóm_14
                 int tongThoiGian = (int)(DateTime.Now - thoiGianBatDau).TotalSeconds;
                 LuuDiem(diem, tongThoiGian, doiChoiID);
 
-                var choiLai = MessageBox.Show($"🎉 Bạn đã hoàn thành tất cả câu hỏi!\nTổng điểm: {diem}\n\nBạn có muốn chơi lại không?",
+                var choiLai = MessageBox.Show(
+                    $"🎉 Bạn đã hoàn thành tất cả câu hỏi!\nTổng điểm: {diem}\n\nBạn có muốn chơi lại không?",
                     "Chơi lại", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
                 if (choiLai == DialogResult.Yes)
                 {
                     cauHoiHienTai = 0;
                     diem = 0;
-                    CapNhatDiem();
+                    CapNhatThongTinHeader();
                     danhSachCauHoi = danhSachCauHoi.OrderBy(x => rand.Next()).ToList();
                     thoiGianBatDau = DateTime.Now;
                     LoadCauHoi();
@@ -68,68 +69,96 @@ namespace Đồ_án_1___Nhóm_14
             dapAnDung = ch.DapAnDung.Trim().ToUpper();
             giaiThich = ch.GiaiThich;
 
-            thoiGianConLai = 30;
-            lblThoiGian.Text = "30s";
+            thoiGianConLaiDouble = 30.0;
+            lblThoiGian.Text = "30.0s";
+            progressThoiGian.Value = 300;
+
+            KichHoatNútĐápÁn();
             timer1.Start();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            thoiGianConLaiDouble -= 0.1;
+            lblThoiGian.Text = $"{Math.Max(0, thoiGianConLaiDouble):F1}s";
+            progressThoiGian.Value = Math.Max(0, (int)(thoiGianConLaiDouble * 10));
+
+            if (thoiGianConLaiDouble <= 0)
+            {
+                timer1.Stop();
+                VôHieuNútĐápÁn();
+                MessageBox.Show($"⏰ Hết giờ!\nĐáp án đúng: {dapAnDung}\n\nGiải thích:\n{giaiThich}",
+                    "Hết thời gian", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                KetThucGame();
+            }
         }
 
         private void KiemTraDapAn(string dapAnNguoiChon)
         {
             timer1.Stop();
+            VôHieuNútĐápÁn();
 
             if (dapAnNguoiChon == dapAnDung)
             {
                 diem += 10;
-                CapNhatDiem();
                 MessageBox.Show("✅ Chính xác!\n+10 điểm", "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cauHoiHienTai++;
+                CapNhatThongTinHeader();
                 LoadCauHoi();
             }
             else
             {
-                MessageBox.Show($"❌ Sai rồi!\nĐáp án đúng là: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Sai rồi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                int tongThoiGian = (int)(DateTime.Now - thoiGianBatDau).TotalSeconds;
-                LuuDiem(diem, tongThoiGian, doiChoiID);
-
-                var choiLai = MessageBox.Show($"🎯 Trò chơi kết thúc!\nTổng điểm của bạn: {diem}\n\nBạn có muốn chơi lại không?",
-                    "Chơi lại", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (choiLai == DialogResult.Yes)
-                {
-                    cauHoiHienTai = 0;
-                    diem = 0;
-                    CapNhatDiem();
-                    danhSachCauHoi = danhSachCauHoi.OrderBy(x => rand.Next()).ToList();
-                    thoiGianBatDau = DateTime.Now;
-                    LoadCauHoi();
-                }
-                else this.Close();
+                MessageBox.Show($"❌ Sai rồi!\nĐáp án đúng là: {dapAnDung}\n\nGiải thích:\n{giaiThich}",
+                    "Sai rồi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KetThucGame();
             }
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void KetThucGame()
         {
-            thoiGianConLai--;
-            lblThoiGian.Text = thoiGianConLai + "s";
+            int tongThoiGian = (int)(DateTime.Now - thoiGianBatDau).TotalSeconds;
+            LuuDiem(diem, tongThoiGian, doiChoiID);
 
-            if (thoiGianConLai == 0)
+            var choiLai = MessageBox.Show(
+                $"🎯 Trò chơi kết thúc!\nTổng điểm của bạn: {diem}\n\nBạn có muốn chơi lại không?",
+                "Chơi lại", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (choiLai == DialogResult.Yes)
             {
-                timer1.Stop();
-                MessageBox.Show($"⏰ Hết giờ!\nĐáp án đúng: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Hết thời gian", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                int tongThoiGian = (int)(DateTime.Now - thoiGianBatDau).TotalSeconds;
-                LuuDiem(diem, tongThoiGian, doiChoiID);
+                cauHoiHienTai = 0;
+                diem = 0;
+                CapNhatThongTinHeader();
+                danhSachCauHoi = danhSachCauHoi.OrderBy(x => rand.Next()).ToList();
+                thoiGianBatDau = DateTime.Now;
+                LoadCauHoi();
+            }
+            else this.Close();
+        }
 
-                var choiLai = MessageBox.Show($"🎯 Trò chơi kết thúc!\nTổng điểm của bạn: {diem}\n\nBạn có muốn chơi lại không?",
-                    "Chơi lại", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (choiLai == DialogResult.Yes)
-                {
-                    cauHoiHienTai = 0;
-                    diem = 0;
-                    CapNhatDiem();
-                    danhSachCauHoi = danhSachCauHoi.OrderBy(x => rand.Next()).ToList();
-                    thoiGianBatDau = DateTime.Now;
-                    LoadCauHoi();
-                }
-                else this.Close();
+        private void CapNhatThongTinHeader()
+        {
+            int diemCaoNhat = LayDiemCaoNhatTheoChuDe(tenChuDe);
+            lblChuDe.Text = $"Chủ đề: {tenChuDe}";
+            lblDiemCao.Text = $"Điểm cao nhất: {diemCaoNhat}";
+            lblDiem.Text = $"Điểm: {diem}";
+        }
+
+        private int LayDiemCaoNhatTheoChuDe(string tenChuDe)
+        {
+            if (tenChuDe == "Ngẫu nhiên") return 0;
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(@"
+                    SELECT MAX(X.Diem)
+                    FROM XepHang X
+                    JOIN ChuDe C ON X.ChuDeID = C.ID
+                    WHERE C.TenChuDe = @TenChuDe", conn);
+                cmd.Parameters.AddWithValue("@TenChuDe", tenChuDe);
+
+                object result = cmd.ExecuteScalar();
+                return result != DBNull.Value ? Convert.ToInt32(result) : 0;
             }
         }
 
@@ -147,8 +176,8 @@ namespace Đồ_án_1___Nhóm_14
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(@"
-            INSERT INTO XepHang (Diem, ThoiGianTraLoi, ChuDeID, DoiChoiID)
-            VALUES (@Diem, @ThoiGianTraLoi, @ChuDeID, @DoiChoiID)", conn);
+                    INSERT INTO XepHang (Diem, ThoiGianTraLoi, ChuDeID, DoiChoiID)
+                    VALUES (@Diem, @ThoiGianTraLoi, @ChuDeID, @DoiChoiID)", conn);
 
                 cmd.Parameters.AddWithValue("@Diem", diem);
                 cmd.Parameters.AddWithValue("@ThoiGianTraLoi", thoiGianTraLoi);
@@ -159,10 +188,21 @@ namespace Đồ_án_1___Nhóm_14
             }
         }
 
-        private void btnDapAnA_Click(object sender, EventArgs e) => KiemTraDapAn("A");
-        private void btnDapAnB_Click(object sender, EventArgs e) => KiemTraDapAn("B");
-        private void btnDapAnC_Click(object sender, EventArgs e) => KiemTraDapAn("C");
-        private void btnDapAnD_Click(object sender, EventArgs e) => KiemTraDapAn("D");
+        private int? LayChuDeIDTuTen(string tenChuDe)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT ID FROM ChuDe WHERE TenChuDe = @TenChuDe", conn);
+                cmd.Parameters.AddWithValue("@TenChuDe", tenChuDe);
+                object result = cmd.ExecuteScalar();
+
+                if (result != null && int.TryParse(result.ToString(), out int chuDeID))
+                    return chuDeID;
+
+                return null;
+            }
+        }
 
         private void btnLuatChoi_Click(object sender, EventArgs e)
         {
@@ -176,26 +216,30 @@ namespace Đồ_án_1___Nhóm_14
             MessageBox.Show(luat, "Luật chơi", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void CapNhatDiem()
+        private void btnSetting_Click(object sender, EventArgs e)
         {
-            lblDiem.Text = $"Chủ đề: {tenChuDe} | Điểm: {diem}";
+            MessageBox.Show("Chức năng Cài đặt đang được phát triển!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private int? LayChuDeIDTuTen(string tenChuDe)
-        {
-            using (SqlConnection conn = new SqlConnection(connStr))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("SELECT ID FROM ChuDe WHERE TenChuDe = @TenChuDe", conn);
-                cmd.Parameters.AddWithValue("@TenChuDe", tenChuDe);
-                object result = cmd.ExecuteScalar();
+        private void btnDapAnA_Click(object sender, EventArgs e) => KiemTraDapAn("A");
+        private void btnDapAnB_Click(object sender, EventArgs e) => KiemTraDapAn("B");
+        private void btnDapAnC_Click(object sender, EventArgs e) => KiemTraDapAn("C");
+        private void btnDapAnD_Click(object sender, EventArgs e) => KiemTraDapAn("D");
 
-                if (result != null && int.TryParse(result.ToString(), out int chuDeID))
-                {
-                    return chuDeID;
-                }
-                return null;
-            }
+        private void KichHoatNútĐápÁn()
+        {
+            btnDapAnA.Enabled = true;
+            btnDapAnB.Enabled = true;
+            btnDapAnC.Enabled = true;
+            btnDapAnD.Enabled = true;
+        }
+
+        private void VôHieuNútĐápÁn()
+        {
+            btnDapAnA.Enabled = false;
+            btnDapAnB.Enabled = false;
+            btnDapAnC.Enabled = false;
+            btnDapAnD.Enabled = false;
         }
     }
 }

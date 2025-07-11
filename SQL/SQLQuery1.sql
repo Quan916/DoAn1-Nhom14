@@ -1,14 +1,18 @@
 ﻿USE DoVuiKienThuc;
 GO
 
--- BẢNG CHỦ ĐỀ
+-- =====================
+--  BẢNG CHỦ ĐỀ
+-- =====================
 CREATE TABLE ChuDe (
     ID INT PRIMARY KEY IDENTITY(1,1),
     TenChuDe NVARCHAR(100) NOT NULL UNIQUE
 );
 GO
 
--- BẢNG CÂU HỎI
+-- =====================
+--  BẢNG CÂU HỎI
+-- =====================
 CREATE TABLE CauHoi (
     ID INT PRIMARY KEY IDENTITY(1,1),
     ChuDeID INT NOT NULL,
@@ -26,19 +30,22 @@ CREATE TABLE CauHoi (
 );
 GO
 
--- BẢNG ĐỘI CHƠI
+-- =====================
+--  BẢNG ĐỘI CHƠI
+-- =====================
 CREATE TABLE DoiChoi (
     ID INT PRIMARY KEY IDENTITY(1,1),
     TenDoi NVARCHAR(100) NOT NULL
 );
 GO
 
--- Ràng buộc duy nhất tên đội
 ALTER TABLE DoiChoi
 ADD CONSTRAINT UQ_TenDoi UNIQUE (TenDoi);
 GO
 
--- BẢNG XẾP HẠNG
+-- =====================
+--  BẢNG XẾP HẠNG
+-- =====================
 CREATE TABLE XepHang (
     ID INT PRIMARY KEY IDENTITY(1,1),
     Diem INT NOT NULL CHECK (Diem >= 0),
@@ -53,7 +60,9 @@ CREATE TABLE XepHang (
 );
 GO
 
--- DỮ LIỆU CHỦ ĐỀ
+-- =====================
+--  DỮ LIỆU MẪU
+-- =====================
 INSERT INTO ChuDe (TenChuDe) VALUES 
 (N'Lịch sử'), 
 (N'Khoa học'), 
@@ -66,7 +75,11 @@ INSERT INTO ChuDe (TenChuDe) VALUES
 (N'Hóa học');
 GO
 
--- PROCEDURE: LẤY CÂU HỎI NGẪU NHIÊN THEO CHỦ ĐỀ
+-- =====================
+--  PROCEDURES
+-- =====================
+
+-- Lấy câu hỏi ngẫu nhiên theo chủ đề
 CREATE PROCEDURE sp_LayCauHoiNgauNhienTheoChuDe
     @ChuDeID INT
 AS
@@ -79,7 +92,7 @@ BEGIN
 END;
 GO
 
--- PROCEDURE: LẤY CÂU HỎI NGẪU NHIÊN KHÔNG THEO CHỦ ĐỀ
+-- Lấy câu hỏi ngẫu nhiên không theo chủ đề
 CREATE PROCEDURE sp_LayCauHoiNgauNhien
 AS
 BEGIN
@@ -89,7 +102,7 @@ BEGIN
 END;
 GO
 
--- PROCEDURE: LƯU ĐIỂM VÀO XẾP HẠNG
+-- Lưu điểm vào bảng Xếp Hạng
 CREATE PROCEDURE sp_ThemDiemXepHang
     @Diem INT,
     @ThoiGianTraLoi INT,
@@ -102,7 +115,25 @@ BEGIN
 END;
 GO
 
--- VIEW: XẾP HẠNG CHI TIẾT (cá nhân & đội)
+-- ✅ Điểm cao nhất theo tên chủ đề
+CREATE PROCEDURE sp_LayDiemCaoNhatTheoChuDe
+    @TenChuDe NVARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT MAX(XH.Diem) AS DiemCaoNhat
+    FROM XepHang XH
+    INNER JOIN ChuDe CD ON XH.ChuDeID = CD.ID
+    WHERE CD.TenChuDe = @TenChuDe;
+END;
+GO
+
+-- =====================
+--  VIEWS
+-- =====================
+
+-- View chi tiết xếp hạng
 CREATE VIEW vw_XepHangChiTiet AS
 SELECT 
     ROW_NUMBER() OVER (ORDER BY XH.Diem DESC, XH.ThoiGianTraLoi ASC) AS STT,
@@ -116,7 +147,7 @@ LEFT JOIN ChuDe AS CH ON XH.ChuDeID = CH.ID
 LEFT JOIN DoiChoi AS DC ON XH.DoiChoiID = DC.ID;
 GO
 
--- VIEW: XẾP HẠNG ĐỘI NHÓM RIÊNG
+-- View xếp hạng đội nhóm
 CREATE VIEW vw_XepHangDoiNhom AS
 SELECT 
     DC.TenDoi,
@@ -128,7 +159,7 @@ JOIN DoiChoi DC ON XH.DoiChoiID = DC.ID
 GROUP BY DC.TenDoi;
 GO
 
--- VIEW: THỐNG KÊ ĐIỂM THEO CHỦ ĐỀ
+-- Thống kê điểm theo chủ đề
 CREATE VIEW vw_ThongKeXepHang AS
 SELECT 
     CH.TenChuDe,
@@ -141,7 +172,7 @@ LEFT JOIN ChuDe CH ON X.ChuDeID = CH.ID
 GROUP BY CH.TenChuDe;
 GO
 
--- VIEW: ĐẾM TỔNG SỐ CÂU HỎI THEO CHỦ ĐỀ
+-- Tổng số câu hỏi theo chủ đề
 CREATE VIEW vw_TongSoCauHoiTheoChuDe AS
 SELECT CH.TenChuDe, COUNT(*) AS TongCauHoi
 FROM CauHoi C
@@ -149,7 +180,9 @@ JOIN ChuDe CH ON C.ChuDeID = CH.ID
 GROUP BY CH.TenChuDe;
 GO
 
--- INDEX hỗ trợ hiệu năng
+-- =====================
+--  INDEXES
+-- =====================
 CREATE INDEX IX_CauHoi_ChuDeID ON CauHoi(ChuDeID);
 CREATE INDEX IX_XepHang_ChuDeID ON XepHang(ChuDeID);
 CREATE INDEX IX_XepHang_DoiChoiID ON XepHang(DoiChoiID);
