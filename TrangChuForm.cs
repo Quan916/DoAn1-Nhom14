@@ -1,5 +1,4 @@
-﻿// File: TrangChuForm.cs
-using ExcelDataReader;
+﻿using ExcelDataReader;
 using FontAwesome.Sharp;
 using System;
 using System.Collections.Generic;
@@ -135,12 +134,14 @@ namespace Đồ_án_1___Nhóm_14
 
         private void btnChonDoi_Click(object sender, EventArgs e)
         {
-            var form = new ChonDoiForm { Size = this.Size, Location = this.Location, StartPosition = FormStartPosition.Manual };
-            if (form.ShowDialog() == DialogResult.OK)
+            var form = new ChonDoiForm(cauHoi)  // ✅ truyền danh sách câu hỏi
             {
-                doiChoiID = form.DoiChoiID;
-                MessageBox.Show("✅ Đã chọn đội chơi!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+                Size = this.Size,
+                Location = this.Location,
+                StartPosition = FormStartPosition.Manual
+            };
+
+            form.ShowDialog();
         }
 
         private void btnThoat_Click(object sender, EventArgs e)
@@ -152,6 +153,8 @@ namespace Đồ_án_1___Nhóm_14
         {
             List<CauHoi> danhSach = new List<CauHoi>();
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            var chuDeMap = LayDanhSachChuDe();
 
             using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
             using (var reader = ExcelReaderFactory.CreateReader(stream))
@@ -170,6 +173,8 @@ namespace Đồ_án_1___Nhóm_14
 
                     if (!new[] { "A", "B", "C", "D" }.Contains(dapAnDung)) continue;
 
+                    int chuDeID = chuDeMap.ContainsKey(chuDe) ? chuDeMap[chuDe] : 0;
+
                     CauHoi ch = new CauHoi
                     {
                         NoiDung = row["NoiDung"].ToString(),
@@ -180,21 +185,20 @@ namespace Đồ_án_1___Nhóm_14
                         DapAnDung = dapAnDung,
                         GiaiThich = row["GiaiThich"].ToString(),
                         ChuDe = chuDe,
-                        ChuDeID = 0 // Không cần nếu không dùng SQL
+                        ChuDeID = chuDeID // ✅ đã gán đúng từ DB
                     };
 
                     danhSach.Add(ch);
                 }
             }
-
             return danhSach;
         }
-
 
         private Dictionary<string, int> LayDanhSachChuDe()
         {
             var map = new Dictionary<string, int>();
-            string connStr = @"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DoVuiKienThuc;Integrated Security=True";
+            string connStr = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DoVuiKienThuc;Integrated Security=True";
+
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 conn.Open();

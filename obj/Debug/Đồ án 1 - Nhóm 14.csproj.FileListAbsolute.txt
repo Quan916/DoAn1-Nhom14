@@ -56,3 +56,4 @@ D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\NAudi
 D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\NAudio.WinMM.xml
 D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\System.Security.AccessControl.xml
 D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\bin\Debug\System.Security.Principal.Windows.xml
+D:\VLU\Đồ án 1\Đồ án 1 - Nhóm 14\Đồ án 1 - Nhóm 14\obj\Debug\Đồ_án_1___Nhóm_14.ChonDoiForm.resources

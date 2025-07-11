@@ -15,10 +15,12 @@ namespace Đồ_án_1___Nhóm_14
     {
         private Dictionary<string, int> doiChoiMap = new Dictionary<string, int>();
         public int? DoiChoiID { get; private set; } = null;
+        private List<CauHoi> cauHoi;
 
-        public ChonDoiForm()
+        public ChonDoiForm(List<CauHoi> danhSachCauHoi)
         {
             InitializeComponent();
+            this.cauHoi = danhSachCauHoi;
             LoadDanhSachDoi();
         }
 
@@ -75,14 +77,37 @@ namespace Đồ_án_1___Nhóm_14
             {
                 string ten = cboDoiCoSan.SelectedItem.ToString();
                 DoiChoiID = doiChoiMap[ten];
-                DialogResult = DialogResult.OK;
-                this.Close();
             }
             else
             {
                 MessageBox.Show("Vui lòng chọn đội chơi hoặc tạo mới đội.");
+                return;
             }
+
+            // Mở form chọn chủ đề
+            var chonChuDeForm = new ChonChuDeForm { Size = this.Size, Location = this.Location };
+            if (chonChuDeForm.ShowDialog() != DialogResult.OK) return;
+
+            string tenChuDe = chonChuDeForm.ChuDeDuocChon;
+
+            var danhSachTheoChuDe = tenChuDe == "Ngẫu nhiên"
+                ? cauHoi
+                : cauHoi.Where(ch => ch.ChuDe.Trim().Equals(tenChuDe.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
+
+            if (danhSachTheoChuDe.Count == 0)
+            {
+                MessageBox.Show("Không có câu hỏi nào cho chủ đề này.");
+                return;
+            }
+
+            // Mở form chơi
+            var choiForm = new ChoiForm(danhSachTheoChuDe, tenChuDe, DoiChoiID);
+            choiForm.ShowDialog();
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
+
 
         private void btnHuy_Click(object sender, EventArgs e)
         {

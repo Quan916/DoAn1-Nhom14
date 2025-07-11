@@ -162,6 +162,9 @@
     <EmbeddedResource Include="ChonChuDeForm.resx">
       <DependentUpon>ChonChuDeForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ChonDoiForm.resx">
+      <DependentUpon>ChonDoiForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
