@@ -15,14 +15,11 @@ namespace Đồ_án_1___Nhóm_14
         public BaseForm()
         {
             InitializeComponent();
-            this.Size = FormState.LastSize;
-            this.Location = FormState.LastLocation;
-            this.StartPosition = FormStartPosition.Manual;
+            FormState.Apply(this);
 
             this.FormClosing += (s, e) =>
             {
-                FormState.LastSize = this.Size;
-                FormState.LastLocation = this.Location;
+                FormState.Save(this);
             };
         }
     }
