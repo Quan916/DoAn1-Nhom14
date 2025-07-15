@@ -3,14 +3,17 @@
   <Profiles />
   <Settings>
     <Setting Name="Volume" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">50</Value>
+      <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="IsLoop" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="MusicPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">music.mp3
 </Value>
+    </Setting>
+    <Setting Name="EffectVolume" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
     </Setting>
   </Settings>
 </SettingsFile>

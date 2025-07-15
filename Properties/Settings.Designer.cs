@@ -25,7 +25,7 @@ namespace Đồ_án_1___Nhóm_14.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int Volume {
             get {
                 return ((int)(this["Volume"]));
@@ -37,7 +37,7 @@ namespace Đồ_án_1___Nhóm_14.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool IsLoop {
             get {
                 return ((bool)(this["IsLoop"]));
@@ -56,6 +56,18 @@ namespace Đồ_án_1___Nhóm_14.Properties {
             }
             set {
                 this["MusicPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int EffectVolume {
+            get {
+                return ((int)(this["EffectVolume"]));
+            }
+            set {
+                this["EffectVolume"] = value;
             }
         }
     }

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Media;
+using NAudio.Wave;
 
 namespace Đồ_án_1___Nhóm_14
 {
@@ -34,6 +35,17 @@ namespace Đồ_án_1___Nhóm_14
             diem = 0;
             CapNhatThongTinHeader();
             LoadCauHoi();
+        }
+
+        private void ChoiForm_Load(object sender, EventArgs e)
+        {
+            // Phát nhạc nền khi mở form
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.MusicPath))
+            {
+                MediaPlayerManager.ChangeMusic(Properties.Settings.Default.MusicPath);
+                MediaPlayerManager.ToggleLoop(Properties.Settings.Default.IsLoop);
+                MediaPlayerManager.SetVolume(Properties.Settings.Default.Volume);
+            }
         }
 
         private void LoadCauHoi()
@@ -101,6 +113,7 @@ namespace Đồ_án_1___Nhóm_14
 
             if (dapAnNguoiChon == dapAnDung)
             {
+                PhatAmThanhDung();
                 diem += 10;
                 MessageBox.Show("✅ Chính xác!\n+10 điểm", "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cauHoiHienTai++;
@@ -109,6 +122,7 @@ namespace Đồ_án_1___Nhóm_14
             }
             else
             {
+                PhatAmThanhSai();
                 MessageBox.Show($"❌ Sai rồi!\nĐáp án đúng là: {dapAnDung}\n\nGiải thích:\n{giaiThich}",
                     "Sai rồi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 KetThucGame();
@@ -250,9 +264,21 @@ namespace Đồ_án_1___Nhóm_14
         {
             try
             {
-                var path = "correct.wav";
-                SoundPlayer player = new SoundPlayer(path);
-                player.Play();
+                if (Properties.Settings.Default.EffectVolume == 0) return;
+
+                var reader = new AudioFileReader("[correct].mp3");
+                reader.Volume = Properties.Settings.Default.EffectVolume / 100f;
+
+                var output = new WaveOutEvent();
+                output.Init(reader);
+                output.Play();
+
+                // Dọn tài nguyên sau khi phát xong
+                output.PlaybackStopped += (s, e) =>
+                {
+                    output.Dispose();
+                    reader.Dispose();
+                };
             }
             catch (Exception ex)
             {
@@ -264,9 +290,20 @@ namespace Đồ_án_1___Nhóm_14
         {
             try
             {
-                var path = "wrong.wav";
-                SoundPlayer player = new SoundPlayer(path);
-                player.Play();
+                if (Properties.Settings.Default.EffectVolume == 0) return;
+
+                var reader = new AudioFileReader("[wrong].mp3");
+                reader.Volume = Properties.Settings.Default.EffectVolume / 100f;
+
+                var output = new WaveOutEvent();
+                output.Init(reader);
+                output.Play();
+
+                output.PlaybackStopped += (s, e) =>
+                {
+                    output.Dispose();
+                    reader.Dispose();
+                };
             }
             catch (Exception ex)
             {

@@ -31,7 +31,7 @@ namespace Đồ_án_1___Nhóm_14
 
         private void TrangChuForm_Load(object sender, EventArgs e)
         {
-            MediaPlayerManager.Init(axWMP);
+            MediaPlayerManager.Init();
 
             string filePath = Path.Combine(Application.StartupPath, "CauHoi.xlsx");
             if (File.Exists(filePath))
@@ -91,50 +91,15 @@ namespace Đồ_án_1___Nhóm_14
 
         private void btnSetting_Click(object sender, EventArgs e)
         {
-            Form popup = new Form { Text = "Cài đặt âm thanh", FormBorderStyle = FormBorderStyle.FixedDialog, StartPosition = FormStartPosition.CenterParent, ClientSize = new Size(240, 200) };
-            trackVolume = new TrackBar { Location = new Point(30, 20), Maximum = 100, Value = Properties.Settings.Default.Volume };
-            trackVolume.Scroll += (s, ev) => MediaPlayerManager.SetVolume(trackVolume.Value);
-
-            btnToggleLoop = new Button { Text = Properties.Settings.Default.IsLoop ? "🔁 Lặp: BẬT" : "⏹️ Lặp: TẮT", Size = new Size(150, 30), Location = new Point(30, 70) };
-            btnToggleLoop.Click += (s, ev) => {
-                MediaPlayerManager.ToggleLoop();
-                btnToggleLoop.Text = Properties.Settings.Default.IsLoop ? "🔁 Lặp: BẬT" : "⏹️ Lặp: TẮT";
-            };
-
-            btnChonNhac = new Button { Text = "🎵 Chọn nhạc", Size = new Size(150, 30), Location = new Point(30, 120) };
-            btnChonNhac.Click += (s, ev) =>
+            using (var caiDatForm = new CaiDatAmThanhForm())
             {
-                Form chonNhacForm = new Form { Text = "Chọn nhạc nền", Size = new Size(300, 180), StartPosition = FormStartPosition.CenterParent, FormBorderStyle = FormBorderStyle.FixedDialog };
-                Label lbl = new Label { Text = "🎵 Chọn nhạc nền:", Location = new Point(20, 20), AutoSize = true };
-                ComboBox cboNhac = new ComboBox { Location = new Point(20, 50), Size = new Size(240, 25), DropDownStyle = ComboBoxStyle.DropDownList };
-
-                string musicFolder = Path.Combine(Application.StartupPath, "Music");
-                if (!Directory.Exists(musicFolder)) Directory.CreateDirectory(musicFolder);
-                foreach (var file in Directory.GetFiles(musicFolder, "*.mp3")) cboNhac.Items.Add(Path.GetFileName(file));
-                if (cboNhac.Items.Count > 0) cboNhac.SelectedIndex = 0;
-
-                Button btnOK = new Button { Text = "▶️ Phát", Location = new Point(100, 90), DialogResult = DialogResult.OK };
-                chonNhacForm.Controls.Add(lbl);
-                chonNhacForm.Controls.Add(cboNhac);
-                chonNhacForm.Controls.Add(btnOK);
-                chonNhacForm.AcceptButton = btnOK;
-
-                if (chonNhacForm.ShowDialog() == DialogResult.OK)
-                {
-                    string selectedFile = Path.Combine(musicFolder, cboNhac.SelectedItem.ToString());
-                    MediaPlayerManager.ChangeMusic(selectedFile);
-                }
-            };
-
-            popup.Controls.Add(trackVolume);
-            popup.Controls.Add(btnToggleLoop);
-            popup.Controls.Add(btnChonNhac);
-            popup.ShowDialog();
+                caiDatForm.ShowDialog(this);
+            }
         }
 
         private void btnChonDoi_Click(object sender, EventArgs e)
         {
-            var form = new ChonDoiForm(cauHoi)  // ✅ truyền danh sách câu hỏi
+            var form = new ChonDoiForm(cauHoi)
             {
                 Size = this.Size,
                 Location = this.Location,

@@ -3,81 +3,124 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
+using NAudio.Wave;
 
 namespace Đồ_án_1___Nhóm_14
 {
     internal class MediaPlayerManager
     {
-        public static AxWindowsMediaPlayer Player { get; private set; }
+        private static WaveOutEvent musicOutput;
+        private static AudioFileReader musicReader;
+        private static bool isLooping = false;
+        private static float currentVolume = 1.0f;
 
-        public static bool IsPlaying => Player != null && Player.playState == WMPLib.WMPPlayState.wmppsPlaying;
-
-        public static void Init(AxWindowsMediaPlayer playerControl)
+        /// Phát nhạc nền
+        public static void ChangeMusic(string filePath)
         {
-            Player = playerControl;
+            StopMusic();
 
-            string musicSettingPath = Properties.Settings.Default.MusicPath;
+            if (!File.Exists(filePath)) return;
 
-            if (string.IsNullOrWhiteSpace(musicSettingPath))
-                return;
-
-            string fullPath = Path.IsPathRooted(musicSettingPath)
-                ? musicSettingPath
-                : Path.Combine(Application.StartupPath, musicSettingPath);
-
-            if (!File.Exists(fullPath))
+            try
             {
-                MessageBox.Show($"Không tìm thấy file nhạc: {fullPath}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                musicReader = new AudioFileReader(filePath)
+                {
+                    Volume = currentVolume
+                };
+
+                musicOutput = new WaveOutEvent();
+                musicOutput.Init(musicReader);
+                musicOutput.Play();
+
+                musicOutput.PlaybackStopped += (s, e) =>
+                {
+                    if (isLooping)
+                    {
+                        musicReader.Position = 0;
+                        musicOutput.Play();
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi phát nhạc nền: " + ex.Message);
+            }
+        }
+
+        /// Dừng nhạc nền
+        public static void StopMusic()
+        {
+            if (musicOutput != null)
+            {
+                musicOutput.Stop();
+                musicOutput.Dispose();
+                musicOutput = null;
             }
 
-            Player.URL = fullPath;
-            Player.settings.setMode("loop", Properties.Settings.Default.IsLoop);
-            Player.settings.volume = Properties.Settings.Default.Volume;
-            Player.Ctlcontrols.play();
+            if (musicReader != null)
+            {
+                musicReader.Dispose();
+                musicReader = null;
+            }
         }
 
-        public static void Toggle()
+        /// Bật hoặc tắt lặp nhạc
+        public static void ToggleLoop(bool enable)
         {
-            if (IsPlaying) Player.Ctlcontrols.pause();
-            else Player.Ctlcontrols.play();
+            isLooping = enable;
         }
 
+        /// Đặt âm lượng nhạc nền (0–100)
         public static void SetVolume(int volume)
         {
-            Player.settings.volume = volume;
-            Properties.Settings.Default.Volume = volume;
-            Properties.Settings.Default.Save();
+            currentVolume = volume / 100f;
+
+            if (musicReader != null)
+                musicReader.Volume = currentVolume;
         }
 
-        public static void ToggleLoop()
+        /// Phát âm thanh hiệu ứng (đúng/sai)
+        public static void PlaySoundEffect(string filePath, int volume = 100)
         {
-            bool newLoop = !Player.settings.getMode("loop");
-            Player.settings.setMode("loop", newLoop);
-            Properties.Settings.Default.IsLoop = newLoop;
-            Properties.Settings.Default.Save();
-        }
+            if (!File.Exists(filePath)) return;
 
-        public static void ChangeMusic(string path)
-        {
-            if (!File.Exists(path))
+            try
             {
-                MessageBox.Show("Không tìm thấy file nhạc vừa chọn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                var reader = new AudioFileReader(filePath)
+                {
+                    Volume = volume / 100f
+                };
+
+                var output = new WaveOutEvent();
+                output.Init(reader);
+                output.Play();
+
+                output.PlaybackStopped += (s, e) =>
+                {
+                    output.Dispose();
+                    reader.Dispose();
+                };
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi phát hiệu ứng âm thanh: " + ex.Message);
+            }
+        }
 
-            Player.URL = path;
-            Player.Ctlcontrols.play();
-
-            string relativePath = path.StartsWith(Application.StartupPath)
-                ? path.Substring(Application.StartupPath.Length).TrimStart('\\')
-                : path;
-
-            Properties.Settings.Default.MusicPath = relativePath;
-            Properties.Settings.Default.Save();
+        public static void Init()
+        {
+            string path = Properties.Settings.Default.MusicPath;
+            if (!string.IsNullOrEmpty(path) && File.Exists(path))
+            {
+                ChangeMusic(path);
+                ToggleLoop(Properties.Settings.Default.IsLoop);
+                SetVolume(Properties.Settings.Default.Volume);
+            }
         }
     }
 }
