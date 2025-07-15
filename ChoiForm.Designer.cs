@@ -81,13 +81,11 @@ namespace Đồ_án_1___Nhóm_14
             this.mainLayout.Location = new System.Drawing.Point(0, 0);
             this.mainLayout.Name = "mainLayout";
             this.mainLayout.RowCount = 5;
-            this.mainLayout.RowStyles.Clear();
-            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12F));  // header
-            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));  // câu hỏi
-            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55F));  // đáp án
-            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3F));  // progress bar
-            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));   // dòng trống (hoặc có thể bỏ)
-
+            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12F));
+            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55F));
+            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3F));
+            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
             this.mainLayout.Size = new System.Drawing.Size(1280, 720);
             this.mainLayout.TabIndex = 0;
             // 
@@ -97,16 +95,16 @@ namespace Đồ_án_1___Nhóm_14
             this.headerPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.headerPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.headerPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.headerPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.headerPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.headerPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 118F));
+            this.headerPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 109F));
             this.headerPanel.Controls.Add(this.leftInfoPanel, 0, 0);
             this.headerPanel.Controls.Add(this.btnSetting, 3, 0);
             this.headerPanel.Controls.Add(this.btnLuatChoi, 4, 0);
             this.headerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.headerPanel.Location = new System.Drawing.Point(3, 3);
             this.headerPanel.Name = "headerPanel";
-            this.headerPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.headerPanel.Size = new System.Drawing.Size(1274, 54);
+            this.headerPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.headerPanel.Size = new System.Drawing.Size(1274, 80);
             this.headerPanel.TabIndex = 0;
             // 
             // leftInfoPanel
@@ -118,7 +116,7 @@ namespace Đồ_án_1___Nhóm_14
             this.leftInfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.leftInfoPanel.Location = new System.Drawing.Point(3, 3);
             this.leftInfoPanel.Name = "leftInfoPanel";
-            this.leftInfoPanel.Size = new System.Drawing.Size(874, 48);
+            this.leftInfoPanel.Size = new System.Drawing.Size(779, 74);
             this.leftInfoPanel.TabIndex = 0;
             this.leftInfoPanel.WrapContents = false;
             // 
@@ -159,9 +157,9 @@ namespace Đồ_án_1___Nhóm_14
             // 
             this.btnSetting.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSetting.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.btnSetting.Location = new System.Drawing.Point(1175, 3);
+            this.btnSetting.Location = new System.Drawing.Point(1048, 3);
             this.btnSetting.Name = "btnSetting";
-            this.btnSetting.Size = new System.Drawing.Size(44, 48);
+            this.btnSetting.Size = new System.Drawing.Size(112, 74);
             this.btnSetting.TabIndex = 1;
             this.btnSetting.Text = "⚙";
             this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
@@ -170,9 +168,9 @@ namespace Đồ_án_1___Nhóm_14
             // 
             this.btnLuatChoi.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnLuatChoi.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.btnLuatChoi.Location = new System.Drawing.Point(1225, 3);
+            this.btnLuatChoi.Location = new System.Drawing.Point(1166, 3);
             this.btnLuatChoi.Name = "btnLuatChoi";
-            this.btnLuatChoi.Size = new System.Drawing.Size(46, 48);
+            this.btnLuatChoi.Size = new System.Drawing.Size(105, 74);
             this.btnLuatChoi.TabIndex = 2;
             this.btnLuatChoi.Text = "?";
             this.btnLuatChoi.Click += new System.EventHandler(this.btnLuatChoi_Click);
@@ -181,9 +179,9 @@ namespace Đồ_án_1___Nhóm_14
             // 
             this.lblCauHoi.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblCauHoi.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold);
-            this.lblCauHoi.Location = new System.Drawing.Point(3, 60);
+            this.lblCauHoi.Location = new System.Drawing.Point(3, 86);
             this.lblCauHoi.Name = "lblCauHoi";
-            this.lblCauHoi.Size = new System.Drawing.Size(1274, 100);
+            this.lblCauHoi.Size = new System.Drawing.Size(1274, 216);
             this.lblCauHoi.TabIndex = 1;
             this.lblCauHoi.Text = "Câu hỏi sẽ hiển thị ở đây";
             this.lblCauHoi.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -198,12 +196,12 @@ namespace Đồ_án_1___Nhóm_14
             this.answerLayout.Controls.Add(this.btnDapAnC, 0, 1);
             this.answerLayout.Controls.Add(this.btnDapAnD, 1, 1);
             this.answerLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.answerLayout.Location = new System.Drawing.Point(3, 163);
+            this.answerLayout.Location = new System.Drawing.Point(3, 305);
             this.answerLayout.Name = "answerLayout";
             this.answerLayout.RowCount = 2;
             this.answerLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.answerLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.answerLayout.Size = new System.Drawing.Size(1274, 514);
+            this.answerLayout.Size = new System.Drawing.Size(1274, 390);
             this.answerLayout.TabIndex = 2;
             // 
             // btnDapAnA
@@ -212,7 +210,7 @@ namespace Đồ_án_1___Nhóm_14
             this.btnDapAnA.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
             this.btnDapAnA.Location = new System.Drawing.Point(3, 3);
             this.btnDapAnA.Name = "btnDapAnA";
-            this.btnDapAnA.Size = new System.Drawing.Size(631, 251);
+            this.btnDapAnA.Size = new System.Drawing.Size(631, 189);
             this.btnDapAnA.TabIndex = 0;
             this.btnDapAnA.Text = "A. Đáp án A";
             this.btnDapAnA.Click += new System.EventHandler(this.btnDapAnA_Click);
@@ -223,7 +221,7 @@ namespace Đồ_án_1___Nhóm_14
             this.btnDapAnB.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
             this.btnDapAnB.Location = new System.Drawing.Point(640, 3);
             this.btnDapAnB.Name = "btnDapAnB";
-            this.btnDapAnB.Size = new System.Drawing.Size(631, 251);
+            this.btnDapAnB.Size = new System.Drawing.Size(631, 189);
             this.btnDapAnB.TabIndex = 1;
             this.btnDapAnB.Text = "B. Đáp án B";
             this.btnDapAnB.Click += new System.EventHandler(this.btnDapAnB_Click);
@@ -232,9 +230,9 @@ namespace Đồ_án_1___Nhóm_14
             // 
             this.btnDapAnC.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnDapAnC.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.btnDapAnC.Location = new System.Drawing.Point(3, 260);
+            this.btnDapAnC.Location = new System.Drawing.Point(3, 198);
             this.btnDapAnC.Name = "btnDapAnC";
-            this.btnDapAnC.Size = new System.Drawing.Size(631, 251);
+            this.btnDapAnC.Size = new System.Drawing.Size(631, 189);
             this.btnDapAnC.TabIndex = 2;
             this.btnDapAnC.Text = "C. Đáp án C";
             this.btnDapAnC.Click += new System.EventHandler(this.btnDapAnC_Click);
@@ -243,9 +241,9 @@ namespace Đồ_án_1___Nhóm_14
             // 
             this.btnDapAnD.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnDapAnD.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.btnDapAnD.Location = new System.Drawing.Point(640, 260);
+            this.btnDapAnD.Location = new System.Drawing.Point(640, 198);
             this.btnDapAnD.Name = "btnDapAnD";
-            this.btnDapAnD.Size = new System.Drawing.Size(631, 251);
+            this.btnDapAnD.Size = new System.Drawing.Size(631, 189);
             this.btnDapAnD.TabIndex = 3;
             this.btnDapAnD.Text = "D. Đáp án D";
             this.btnDapAnD.Click += new System.EventHandler(this.btnDapAnD_Click);
@@ -253,10 +251,10 @@ namespace Đồ_án_1___Nhóm_14
             // progressThoiGian
             // 
             this.progressThoiGian.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.progressThoiGian.Location = new System.Drawing.Point(3, 683);
+            this.progressThoiGian.Location = new System.Drawing.Point(3, 701);
             this.progressThoiGian.Maximum = 300;
             this.progressThoiGian.Name = "progressThoiGian";
-            this.progressThoiGian.Size = new System.Drawing.Size(1274, 24);
+            this.progressThoiGian.Size = new System.Drawing.Size(1274, 15);
             this.progressThoiGian.TabIndex = 3;
             this.progressThoiGian.Value = 300;
             // 

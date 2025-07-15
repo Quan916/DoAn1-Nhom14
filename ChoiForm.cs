@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Media;
 
 namespace Đồ_án_1___Nhóm_14
 {
@@ -73,7 +74,7 @@ namespace Đồ_án_1___Nhóm_14
             lblThoiGian.Text = "30.0s";
             progressThoiGian.Value = 300;
 
-            KichHoatNútĐápÁn();
+            KichHoatNutDapAn();
             timer1.Start();
         }
 
@@ -86,7 +87,7 @@ namespace Đồ_án_1___Nhóm_14
             if (thoiGianConLaiDouble <= 0)
             {
                 timer1.Stop();
-                VôHieuNútĐápÁn();
+                VoHieuNutDapAn();
                 MessageBox.Show($"⏰ Hết giờ!\nĐáp án đúng: {dapAnDung}\n\nGiải thích:\n{giaiThich}",
                     "Hết thời gian", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 KetThucGame();
@@ -96,7 +97,7 @@ namespace Đồ_án_1___Nhóm_14
         private void KiemTraDapAn(string dapAnNguoiChon)
         {
             timer1.Stop();
-            VôHieuNútĐápÁn();
+            VoHieuNutDapAn();
 
             if (dapAnNguoiChon == dapAnDung)
             {
@@ -218,7 +219,10 @@ namespace Đồ_án_1___Nhóm_14
 
         private void btnSetting_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Chức năng Cài đặt đang được phát triển!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            using (var caiDatForm = new CaiDatAmThanhForm())
+            {
+                caiDatForm.ShowDialog(this);
+            }
         }
 
         private void btnDapAnA_Click(object sender, EventArgs e) => KiemTraDapAn("A");
@@ -226,7 +230,7 @@ namespace Đồ_án_1___Nhóm_14
         private void btnDapAnC_Click(object sender, EventArgs e) => KiemTraDapAn("C");
         private void btnDapAnD_Click(object sender, EventArgs e) => KiemTraDapAn("D");
 
-        private void KichHoatNútĐápÁn()
+        private void KichHoatNutDapAn()
         {
             btnDapAnA.Enabled = true;
             btnDapAnB.Enabled = true;
@@ -234,12 +238,40 @@ namespace Đồ_án_1___Nhóm_14
             btnDapAnD.Enabled = true;
         }
 
-        private void VôHieuNútĐápÁn()
+        private void VoHieuNutDapAn()
         {
             btnDapAnA.Enabled = false;
             btnDapAnB.Enabled = false;
             btnDapAnC.Enabled = false;
             btnDapAnD.Enabled = false;
+        }
+
+        private void PhatAmThanhDung()
+        {
+            try
+            {
+                var path = "correct.wav";
+                SoundPlayer player = new SoundPlayer(path);
+                player.Play();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi phát âm thanh đúng: " + ex.Message);
+            }
+        }
+
+        private void PhatAmThanhSai()
+        {
+            try
+            {
+                var path = "wrong.wav";
+                SoundPlayer player = new SoundPlayer(path);
+                player.Play();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi phát âm thanh sai: " + ex.Message);
+            }
         }
     }
 }
