@@ -215,9 +215,8 @@ namespace Đồ_án_1___Nhóm_14
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "TrangChuForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Trò chơi Đố Vui Kiến Thức Tổng Hợp";
+            this.Text = "Trò chơi Đố vui Kiến thức Tổng hợp - Nhóm 14";
             this.Load += new System.EventHandler(this.TrangChuForm_Load);
-            this.Resize += new System.EventHandler(this.TrangChuForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.axWMP)).EndInit();
             this.buttonPanel.ResumeLayout(false);
             this.mainLayout.ResumeLayout(false);

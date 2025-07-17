@@ -42,20 +42,5 @@ namespace Đồ_án_1___Nhóm_14
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
-
-        private void ChonChuDeForm_Load(object sender, EventArgs e)
-        {
-            AddHover(btnLichSu, Color.RoyalBlue);
-            AddHover(btnKhoaHoc, Color.RoyalBlue);
-            AddHover(btnDiaLy, Color.RoyalBlue);
-            AddHover(btnTheThao, Color.RoyalBlue);
-            AddHover(btnNgheThuat, Color.RoyalBlue);
-            AddHover(btnCongNghe, Color.RoyalBlue);
-            AddHover(btnVanHoc, Color.RoyalBlue);
-            AddHover(btnTheGioi, Color.RoyalBlue);
-            AddHover(btnHoaHoc, Color.RoyalBlue);
-            AddHover(btnNgauNhien, Color.DarkOrange);
-            AddHover(btnQuayLai, Color.LightGray);
-        }
     }
 }

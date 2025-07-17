@@ -1,45 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Đồ_án_1___Nhóm_14
 {
     public partial class ChonDoiForm : BaseForm
     {
-        private Dictionary<string, int> doiChoiMap = new Dictionary<string, int>();
+        private readonly Dictionary<string, int> doiChoiMap = new Dictionary<string, int>();
         public int? DoiChoiID { get; private set; } = null;
-        private List<CauHoi> cauHoi;
+        private readonly List<CauHoi> cauHoi;
 
         public ChonDoiForm(List<CauHoi> danhSachCauHoi)
         {
             InitializeComponent();
-            this.cauHoi = danhSachCauHoi;
+            cauHoi = danhSachCauHoi;
             LoadDanhSachDoi();
         }
 
         private void LoadDanhSachDoi()
         {
-            string connStr = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DoVuiKienThuc;Integrated Security=True";
-            using (SqlConnection conn = new SqlConnection(connStr))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("SELECT ID, TenDoi FROM DoiChoi", conn);
-                SqlDataReader reader = cmd.ExecuteReader();
+            var conn = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DoVuiKienThuc;Integrated Security=True");
+            conn.Open();
+            var cmd = new SqlCommand("SELECT ID, TenDoi FROM DoiChoi", conn);
+            var reader = cmd.ExecuteReader();
 
-                while (reader.Read())
-                {
-                    string ten = reader["TenDoi"].ToString();
-                    int id = (int)reader["ID"];
-                    cboDoiCoSan.Items.Add(ten);
-                    doiChoiMap[ten] = id;
-                }
+            while (reader.Read())
+            {
+                string ten = reader["TenDoi"].ToString();
+                int id = (int)reader["ID"];
+                cboDoiCoSan.Items.Add(ten);
+                doiChoiMap[ten] = id;
             }
         }
 
@@ -52,67 +45,57 @@ namespace Đồ_án_1___Nhóm_14
                 return;
             }
 
-            string connStr = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DoVuiKienThuc;Integrated Security=True";
-            using (SqlConnection conn = new SqlConnection(connStr))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO DoiChoi (TenDoi) OUTPUT INSERTED.ID VALUES (@TenDoi)", conn);
-                cmd.Parameters.AddWithValue("@TenDoi", tenDoi);
-                int id = (int)cmd.ExecuteScalar();
-                DoiChoiID = id;
-                DialogResult = DialogResult.OK;
-                this.Close();
-            }
-
             if (doiChoiMap.ContainsKey(tenDoi))
             {
                 MessageBox.Show("Tên đội đã tồn tại, vui lòng nhập tên khác.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
+            var conn = new SqlConnection(@"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DoVuiKienThuc;Integrated Security=True");
+            conn.Open();
+            var cmd = new SqlCommand("INSERT INTO DoiChoi (TenDoi) OUTPUT INSERTED.ID VALUES (@TenDoi)", conn);
+            cmd.Parameters.AddWithValue("@TenDoi", tenDoi);
+            DoiChoiID = (int)cmd.ExecuteScalar();
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void btnChoi_Click(object sender, EventArgs e)
         {
-            if (cboDoiCoSan.SelectedItem != null)
-            {
-                string ten = cboDoiCoSan.SelectedItem.ToString();
-                DoiChoiID = doiChoiMap[ten];
-            }
-            else
+            if (cboDoiCoSan.SelectedItem == null)
             {
                 MessageBox.Show("Vui lòng chọn đội chơi hoặc tạo mới đội.");
                 return;
             }
 
-            // Mở form chọn chủ đề
-            var chonChuDeForm = new ChonChuDeForm { Size = this.Size, Location = this.Location };
+            string ten = cboDoiCoSan.SelectedItem.ToString();
+            DoiChoiID = doiChoiMap[ten];
+
+            var chonChuDeForm = new ChonChuDeForm { Size = Size, Location = Location };
             if (chonChuDeForm.ShowDialog() != DialogResult.OK) return;
 
             string tenChuDe = chonChuDeForm.ChuDeDuocChon;
-
             var danhSachTheoChuDe = tenChuDe == "Ngẫu nhiên"
                 ? cauHoi
                 : cauHoi.Where(ch => ch.ChuDe.Trim().Equals(tenChuDe.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
 
-            if (danhSachTheoChuDe.Count == 0)
+            if (!danhSachTheoChuDe.Any())
             {
                 MessageBox.Show("Không có câu hỏi nào cho chủ đề này.");
                 return;
             }
 
-            // Mở form chơi
             var choiForm = new ChoiForm(danhSachTheoChuDe, tenChuDe, DoiChoiID);
             choiForm.ShowDialog();
 
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            DialogResult = DialogResult.OK;
+            Close();
         }
-
 
         private void btnHuy_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
     }
 }

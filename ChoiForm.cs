@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using System.Media;
 using NAudio.Wave;
 
 namespace Đồ_án_1___Nhóm_14
@@ -22,7 +21,7 @@ namespace Đồ_án_1___Nhóm_14
         private string tenChuDe;
         private int? doiChoiID;
 
-        private string connStr = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DoVuiKienThuc;Integrated Security=True";
+        private readonly string connStr = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DoVuiKienThuc;Integrated Security=True";
 
         public ChoiForm(List<CauHoi> cauHoiExcel, string chuDeDuocChon, int? doiChoiID)
         {
@@ -39,13 +38,7 @@ namespace Đồ_án_1___Nhóm_14
 
         private void ChoiForm_Load(object sender, EventArgs e)
         {
-            // Phát nhạc nền khi mở form
-            if (!string.IsNullOrEmpty(Properties.Settings.Default.MusicPath))
-            {
-                MediaPlayerManager.ChangeMusic(Properties.Settings.Default.MusicPath);
-                MediaPlayerManager.ToggleLoop(Properties.Settings.Default.IsLoop);
-                MediaPlayerManager.SetVolume(Properties.Settings.Default.Volume);
-            }
+            MediaPlayerManager.Init();
         }
 
         private void LoadCauHoi()
@@ -53,23 +46,7 @@ namespace Đồ_án_1___Nhóm_14
             if (cauHoiHienTai >= danhSachCauHoi.Count)
             {
                 timer1.Stop();
-                int tongThoiGian = (int)(DateTime.Now - thoiGianBatDau).TotalSeconds;
-                LuuDiem(diem, tongThoiGian, doiChoiID);
-
-                var choiLai = MessageBox.Show(
-                    $"🎉 Bạn đã hoàn thành tất cả câu hỏi!\nTổng điểm: {diem}\n\nBạn có muốn chơi lại không?",
-                    "Chơi lại", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (choiLai == DialogResult.Yes)
-                {
-                    cauHoiHienTai = 0;
-                    diem = 0;
-                    CapNhatThongTinHeader();
-                    danhSachCauHoi = danhSachCauHoi.OrderBy(x => rand.Next()).ToList();
-                    thoiGianBatDau = DateTime.Now;
-                    LoadCauHoi();
-                }
-                else this.Close();
+                KetThucGame(true);
                 return;
             }
 
@@ -86,34 +63,34 @@ namespace Đồ_án_1___Nhóm_14
             lblThoiGian.Text = "30.0s";
             progressThoiGian.Value = 300;
 
-            KichHoatNutDapAn();
+            DatTrangThaiNutDapAn(true);
             timer1.Start();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             thoiGianConLaiDouble -= 0.1;
-            lblThoiGian.Text = $"{Math.Max(0, thoiGianConLaiDouble):F1}s";
-            progressThoiGian.Value = Math.Max(0, (int)(thoiGianConLaiDouble * 10));
+            if (thoiGianConLaiDouble < 0) thoiGianConLaiDouble = 0;
+
+            lblThoiGian.Text = $"{thoiGianConLaiDouble:F1}s";
+            progressThoiGian.Value = (int)(thoiGianConLaiDouble * 10);
 
             if (thoiGianConLaiDouble <= 0)
             {
                 timer1.Stop();
-                VoHieuNutDapAn();
-                MessageBox.Show($"⏰ Hết giờ!\nĐáp án đúng: {dapAnDung}\n\nGiải thích:\n{giaiThich}",
-                    "Hết thời gian", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                KetThucGame();
+                DatTrangThaiNutDapAn(false);
+                ThongBaoKetThuc("⏰ Hết giờ!");
             }
         }
 
         private void KiemTraDapAn(string dapAnNguoiChon)
         {
             timer1.Stop();
-            VoHieuNutDapAn();
+            DatTrangThaiNutDapAn(false);
 
             if (dapAnNguoiChon == dapAnDung)
             {
-                PhatAmThanhDung();
+                PhatAmThanh("correct.mp3");
                 diem += 10;
                 MessageBox.Show("✅ Chính xác!\n+10 điểm", "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cauHoiHienTai++;
@@ -122,22 +99,27 @@ namespace Đồ_án_1___Nhóm_14
             }
             else
             {
-                PhatAmThanhSai();
-                MessageBox.Show($"❌ Sai rồi!\nĐáp án đúng là: {dapAnDung}\n\nGiải thích:\n{giaiThich}",
-                    "Sai rồi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                KetThucGame();
+                PhatAmThanh("wrong.mp3");
+                ThongBaoKetThuc("❌ Sai rồi!");
             }
         }
 
-        private void KetThucGame()
+        private void ThongBaoKetThuc(string message)
+        {
+            MessageBox.Show($"{message}\nĐáp án đúng là: {dapAnDung}\n\nGiải thích:\n{giaiThich}", "Kết thúc", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            KetThucGame();
+        }
+
+        private void KetThucGame(bool hoanThanhHet = false)
         {
             int tongThoiGian = (int)(DateTime.Now - thoiGianBatDau).TotalSeconds;
             LuuDiem(diem, tongThoiGian, doiChoiID);
 
-            var choiLai = MessageBox.Show(
-                $"🎯 Trò chơi kết thúc!\nTổng điểm của bạn: {diem}\n\nBạn có muốn chơi lại không?",
-                "Chơi lại", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var msg = hoanThanhHet ?
+                $"🎉 Bạn đã hoàn thành tất cả câu hỏi!\nTổng điểm: {diem}" :
+                $"🎯 Trò chơi kết thúc!\nTổng điểm của bạn: {diem}";
 
+            var choiLai = MessageBox.Show($"{msg}\n\nBạn có muốn chơi lại không?", "Chơi lại", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (choiLai == DialogResult.Yes)
             {
                 cauHoiHienTai = 0;
@@ -162,19 +144,13 @@ namespace Đồ_án_1___Nhóm_14
         {
             if (tenChuDe == "Ngẫu nhiên") return 0;
 
-            using (SqlConnection conn = new SqlConnection(connStr))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(@"
-                    SELECT MAX(X.Diem)
-                    FROM XepHang X
-                    JOIN ChuDe C ON X.ChuDeID = C.ID
-                    WHERE C.TenChuDe = @TenChuDe", conn);
-                cmd.Parameters.AddWithValue("@TenChuDe", tenChuDe);
+            var conn = new SqlConnection(connStr);
+            conn.Open();
+            var cmd = new SqlCommand(@"SELECT MAX(X.Diem) FROM XepHang X JOIN ChuDe C ON X.ChuDeID = C.ID WHERE C.TenChuDe = @TenChuDe", conn);
+            cmd.Parameters.AddWithValue("@TenChuDe", tenChuDe);
 
-                object result = cmd.ExecuteScalar();
-                return result != DBNull.Value ? Convert.ToInt32(result) : 0;
-            }
+            var result = cmd.ExecuteScalar();
+            return result != DBNull.Value ? Convert.ToInt32(result) : 0;
         }
 
         private void LuuDiem(int diem, int thoiGianTraLoi, int? doiChoiID)
@@ -187,36 +163,29 @@ namespace Đồ_án_1___Nhóm_14
                 return;
             }
 
-            using (SqlConnection conn = new SqlConnection(connStr))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(@"
-                    INSERT INTO XepHang (Diem, ThoiGianTraLoi, ChuDeID, DoiChoiID)
-                    VALUES (@Diem, @ThoiGianTraLoi, @ChuDeID, @DoiChoiID)", conn);
+            var conn = new SqlConnection(connStr);
+            conn.Open();
+            var cmd = new SqlCommand(@"INSERT INTO XepHang (Diem, ThoiGianTraLoi, ChuDeID, DoiChoiID) VALUES (@Diem, @ThoiGianTraLoi, @ChuDeID, @DoiChoiID)", conn);
 
-                cmd.Parameters.AddWithValue("@Diem", diem);
-                cmd.Parameters.AddWithValue("@ThoiGianTraLoi", thoiGianTraLoi);
-                cmd.Parameters.AddWithValue("@ChuDeID", chuDeID.HasValue ? (object)chuDeID.Value : DBNull.Value);
-                cmd.Parameters.AddWithValue("@DoiChoiID", doiChoiID.HasValue ? (object)doiChoiID.Value : DBNull.Value);
+            cmd.Parameters.AddWithValue("@Diem", diem);
+            cmd.Parameters.AddWithValue("@ThoiGianTraLoi", thoiGianTraLoi);
+            cmd.Parameters.AddWithValue("@ChuDeID", chuDeID.HasValue ? (object)chuDeID.Value : DBNull.Value);
+            cmd.Parameters.AddWithValue("@DoiChoiID", doiChoiID.HasValue ? (object)doiChoiID.Value : DBNull.Value);
 
-                cmd.ExecuteNonQuery();
-            }
+            cmd.ExecuteNonQuery();
         }
 
         private int? LayChuDeIDTuTen(string tenChuDe)
         {
-            using (SqlConnection conn = new SqlConnection(connStr))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("SELECT ID FROM ChuDe WHERE TenChuDe = @TenChuDe", conn);
-                cmd.Parameters.AddWithValue("@TenChuDe", tenChuDe);
-                object result = cmd.ExecuteScalar();
+            var conn = new SqlConnection(connStr);
+            conn.Open();
+            var cmd = new SqlCommand("SELECT ID FROM ChuDe WHERE TenChuDe = @TenChuDe", conn);
+            cmd.Parameters.AddWithValue("@TenChuDe", tenChuDe);
+            var result = cmd.ExecuteScalar();
 
-                if (result != null && int.TryParse(result.ToString(), out int chuDeID))
-                    return chuDeID;
-
-                return null;
-            }
+            if (result != null && int.TryParse(result.ToString(), out int id))
+                return id;
+            return null;
         }
 
         private void btnLuatChoi_Click(object sender, EventArgs e)
@@ -233,67 +202,48 @@ namespace Đồ_án_1___Nhóm_14
 
         private void btnSetting_Click(object sender, EventArgs e)
         {
-            using (var caiDatForm = new CaiDatAmThanhForm())
-            {
-                caiDatForm.ShowDialog(this);
-            }
+            var form = new CaiDatAmThanhForm();
+            form.ShowDialog(this);
         }
 
-        private void btnDapAnA_Click(object sender, EventArgs e) => KiemTraDapAn("A");
-        private void btnDapAnB_Click(object sender, EventArgs e) => KiemTraDapAn("B");
-        private void btnDapAnC_Click(object sender, EventArgs e) => KiemTraDapAn("C");
-        private void btnDapAnD_Click(object sender, EventArgs e) => KiemTraDapAn("D");
-
-        private void KichHoatNutDapAn()
+        private void btnDapAnA_Click(object sender, EventArgs e)
         {
-            btnDapAnA.Enabled = true;
-            btnDapAnB.Enabled = true;
-            btnDapAnC.Enabled = true;
-            btnDapAnD.Enabled = true;
+            KiemTraDapAn("A");
         }
 
-        private void VoHieuNutDapAn()
+        private void btnDapAnB_Click(object sender, EventArgs e)
         {
-            btnDapAnA.Enabled = false;
-            btnDapAnB.Enabled = false;
-            btnDapAnC.Enabled = false;
-            btnDapAnD.Enabled = false;
+            KiemTraDapAn("B");
         }
 
-        private void PhatAmThanhDung()
+        private void btnDapAnC_Click(object sender, EventArgs e)
         {
+            KiemTraDapAn("C");
+        }
+
+        private void btnDapAnD_Click(object sender, EventArgs e)
+        {
+            KiemTraDapAn("D");
+        }
+
+        private void DatTrangThaiNutDapAn(bool enabled)
+        {
+            btnDapAnA.Enabled = enabled;
+            btnDapAnB.Enabled = enabled;
+            btnDapAnC.Enabled = enabled;
+            btnDapAnD.Enabled = enabled;
+        }
+
+        private void PhatAmThanh(string filePath)
+        {
+            if (Properties.Settings.Default.EffectVolume == 0 || !System.IO.File.Exists(filePath)) return;
+
             try
             {
-                if (Properties.Settings.Default.EffectVolume == 0) return;
-
-                var reader = new AudioFileReader("[correct].mp3");
-                reader.Volume = Properties.Settings.Default.EffectVolume / 100f;
-
-                var output = new WaveOutEvent();
-                output.Init(reader);
-                output.Play();
-
-                // Dọn tài nguyên sau khi phát xong
-                output.PlaybackStopped += (s, e) =>
+                var reader = new AudioFileReader(filePath)
                 {
-                    output.Dispose();
-                    reader.Dispose();
+                    Volume = Properties.Settings.Default.EffectVolume / 100f
                 };
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Lỗi phát âm thanh đúng: " + ex.Message);
-            }
-        }
-
-        private void PhatAmThanhSai()
-        {
-            try
-            {
-                if (Properties.Settings.Default.EffectVolume == 0) return;
-
-                var reader = new AudioFileReader("[wrong].mp3");
-                reader.Volume = Properties.Settings.Default.EffectVolume / 100f;
 
                 var output = new WaveOutEvent();
                 output.Init(reader);
@@ -307,7 +257,7 @@ namespace Đồ_án_1___Nhóm_14
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Lỗi phát âm thanh sai: " + ex.Message);
+                Console.WriteLine($"Lỗi phát âm thanh {filePath}: {ex.Message}");
             }
         }
     }
